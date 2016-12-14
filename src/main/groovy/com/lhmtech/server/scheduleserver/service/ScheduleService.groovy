@@ -4,6 +4,8 @@ import com.lhmtech.server.scheduleserver.domain.Task
 import groovy.json.JsonBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Scheduled
 
 /**
  * Created by lihe on 16-12-14.
@@ -11,12 +13,16 @@ import org.slf4j.LoggerFactory
 class ScheduleService {
     Logger logger = LoggerFactory.getLogger(ScheduleService.class)
 
-    /*
     @Autowired
-    RequestService requestService
+    ScheduleMessagePublisher scheduleMessagePublisher
 
-    private final static String scheduleCreator = 'schedule'
+    void schedule(Task task) {
+        String taskJson = new JsonBuilder(task).toPrettyString()
+        scheduleMessagePublisher.publish(taskJson)
+        logger.info("scheduled task: ${taskJson}")
+    }
 
+    /*
     @Scheduled(cron = "0 0 10 * * ?") //Every day at 10:00
     void requestUpdateCompanies() {
         logger.info("Request update company")
@@ -58,10 +64,5 @@ class ScheduleService {
         logger.info("Request publish weekly Iod")
         requestService.createRequest(Constants.PUBLISH_WEEKLY_IOD, scheduleCreator)
     }*/
-    ScheduleMessagePublisher scheduleMessagePublisher
 
-    void schedule(Task task) {
-        String taskJson = new JsonBuilder(task).toPrettyString()
-        scheduleMessagePublisher.publish(taskJson)
-    }
 }
