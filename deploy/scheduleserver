@@ -1,0 +1,100 @@
+#!/bin/bash
+# folder /etc/init.d/
+# description: whs start stop restart
+# processname: whs
+# chkconfig: 234 20 80
+
+export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+
+export APP_HOME="/opt/scheduleserver"
+export APP_NAME="scheduleserver"
+export APP_EXT="jar"
+#replace with actual password while deploy
+export JAVA_ARGS="-Xms4g -Xmx4g -Duser.timezone=America/Chicago -Dspring.mail.password=***"
+export SPRING_BOOT_ARGS="--spring.profiles.active=prod"
+
+#$1 = start|stop|restart
+cd $APP_HOME
+
+umask 0022
+RETVAL=0
+
+PACKAGE="$APP_NAME.$APP_EXT"
+
+
+function start {
+    PID=$(pgrep java | xargs ps | grep $PACKAGE | awk '{print $1}')
+    if [[ -n "$PID" ]]; then
+        echo "Process (${PID}) is already running..."
+        return $RETVAL
+    else
+        echo "Starting application $PACKAGE ..."
+        nohup $JAVA_HOME/bin/java -server ${JAVA_ARGS} -jar $APP_HOME/$PACKAGE \
+              $SPRING_BOOT_ARGS \
+              > /dev/null 2>&1 &
+        RETVAL=$?
+    fi
+    return $RETVAL
+}
+
+function stop {
+    if ! pgrep java | xargs ps | grep $PACKAGE | awk '{print $1}' > /dev/null 2>&1; then
+        echo "Service [$APP_NAME] is not running..."
+        return
+    fi
+
+    PID=$(pgrep java | xargs ps | grep $PACKAGE | awk '{print $1}')
+    if [[ -z "$PID" ]];then
+        echo "Process not running..."
+        return $RETVAL
+    fi
+    echo "Killing process..."
+    kill -9 $(pgrep java | xargs ps | grep $PACKAGE | awk '{print $1}') > /dev/null 2>&1
+    RETVAL=$?
+
+    sleep 3s
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+    ;;
+    stop)
+        stop
+    ;;
+    status)
+        echo "Service [$APP_NAME] - [$1]"
+        echo "    JAVA_HOME=$JAVA_HOME"
+        echo "    APP_HOME=$APP_HOME"
+        echo "    APP_NAME=$APP_NAME"
+        echo ""
+
+        PID=$(pgrep java | xargs ps | grep $PACKAGE | awk '{print $1}')
+        if [[ -n "$PID" ]]; then
+            echo "Process (${PID}) is running..."
+            exit 0
+        else
+            echo "Process is stopped..."
+
+
+            exit 1
+        fi
+    ;;
+    restart)
+        stop
+        sleep 2s
+        start
+    ;;
+    debug)
+        echo "java command:"
+        echo "$JAVA_HOME/bin/java -server ${JAVA_ARGS} -jar $APP_HOME/$PACKAGE $SPRING_BOOT_ARGS"
+        exit 0
+    ;;
+    *)
+        echo $"Usage: $prog {start|stop|restart|status|debug}"
+        RETVAL=2
+    ;;
+esac
+
+exit $RETVAL

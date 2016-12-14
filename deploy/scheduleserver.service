@@ -1,0 +1,14 @@
+[Unit]
+Description=Start scheduleserver service
+
+
+[Service]
+Type=idle
+ExecStart=/opt/scheduleserver/scheduleserver start
+ExecStop=/opt/scheduleserver/scheduleserver stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+
+

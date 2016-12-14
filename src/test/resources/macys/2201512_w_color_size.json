@@ -1,0 +1,502 @@
+{
+  "id": "2201512",
+  "title": "COACH Empire Low Top Logo Sneakers",
+  "lowAvailabilityMessage": "",
+  "imageUrl": "https://macys-o.scene7.com/is/image/MCY/products/6/optimized/3669686_fpx.tif",
+  "categoryId": "13247",
+  "showReviews": true,
+  "showQuestionAnswers": false,
+  "showProductCollection": false,
+  "breadCrumbCategory": "Shoes",
+  "custRatings": "4.7",
+  "shortDescription": "COACH Empire Low Top Logo Sneakers",
+  "otherOfferCount": "1",
+  "isRegistrable": "false",
+  "selectedColor": "BLACK SIGNATURE",
+  "selectedSize": "",
+  "selectedType": "",
+  "selectedQuantity": "1",
+  "reabtePopUpFilename": "",
+  "images": {
+    "imageSource": "6/optimized/3669686_fpx.tif",
+    "additionalImages": [
+      "6/optimized/3672546_fpx.tif"
+    ],
+    "colorwayPrimaryImages": {
+      "KHAKI/CHESTNUT": "5/optimized/3663205_fpx.tif",
+      "BLACK SIGNATURE": "6/optimized/3669686_fpx.tif"
+    },
+    "colorwayAdditionalImages": {
+      "KHAKI/CHESTNUT": "6/optimized/3663206_fpx.tif,7/optimized/3663207_fpx.tif",
+      "BLACK SIGNATURE": "8/optimized/3672568_fpx.tif,6/optimized/3672546_fpx.tif"
+    }
+  },
+  "pdpColorized": "true",
+  "orderByPhoneTemplate": "",
+  "colorwayPrice": {
+    "priceTypeText": "",
+    "upcOnSale": false,
+    "onSale": false,
+    "saleEndDate": "",
+    "pricingPolicyText": "",
+    "tieredPrice": [
+      {
+        "label": "[PRICE]",
+        "value": [69.99]
+      }
+    ],
+    "giftSetValue": "",
+    "openStockValue": ""
+  },
+  "colorSwatchMap": {
+    "BLACK SIGNATURE": "6/optimized/2873536_fpx.tif"
+  ,
+    "KHAKI/CHESTNUT": "1/optimized/2873741_fpx.tif"
+  },
+  "colorwayPricingSwatches": {
+    "$69.99": {
+      "BLACK SIGNATURE": {
+        "priceTypeText": "",
+        "upcOnSale": false,
+        "onSale": false,
+        "saleEndDate": "",
+        "pricingPolicyText": "",
+        "tieredPrice": [
+          {
+            "label": "[PRICE]",
+            "value": [69.99]
+          }
+        ]
+      }
+    ,
+      "KHAKI/CHESTNUT": {
+        "priceTypeText": "",
+        "upcOnSale": false,
+        "onSale": false,
+        "saleEndDate": "",
+        "pricingPolicyText": "",
+        "tieredPrice": [
+          {
+            "label": "[PRICE]",
+            "value": [69.99]
+          }
+        ]
+      }
+    }
+  },
+  "sizesList": [
+    "5M", "5.5M", "6M", "6.5M", "7M", "7.5M", "8M", "8.5M", "9M", "9.5M", "10M", "11M"
+  ],
+  "typesList": [
+  ],
+  "isCoach": true,
+  "isChanel": false,
+  "isGiftCard": false,
+  "isMaster": false,
+  "isPhoneOnly": false,
+  "isBeauty": false,
+  "isFragrance": false,
+  "upcMap": {
+    "2201512": [
+      {
+        "upcID": "34361689",
+        "color": "BLACK SIGNATURE",
+        "size": "10M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839070",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361688",
+        "color": "BLACK SIGNATURE",
+        "size": "9.5M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839063",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361690",
+        "color": "BLACK SIGNATURE",
+        "size": "11M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839087",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361685",
+        "color": "BLACK SIGNATURE",
+        "size": "8M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839032",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361684",
+        "color": "BLACK SIGNATURE",
+        "size": "7.5M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839025",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361687",
+        "color": "BLACK SIGNATURE",
+        "size": "9M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839056",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361686",
+        "color": "BLACK SIGNATURE",
+        "size": "8.5M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839049",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361681",
+        "color": "BLACK SIGNATURE",
+        "size": "6M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542838998",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361680",
+        "color": "BLACK SIGNATURE",
+        "size": "5.5M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542838981",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361683",
+        "color": "BLACK SIGNATURE",
+        "size": "7M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839018",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361682",
+        "color": "BLACK SIGNATURE",
+        "size": "6.5M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839001",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361676",
+        "color": "KHAKI/CHESTNUT",
+        "size": "9.5M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839186",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361677",
+        "color": "KHAKI/CHESTNUT",
+        "size": "10M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839193",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361678",
+        "color": "KHAKI/CHESTNUT",
+        "size": "11M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839209",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361679",
+        "color": "BLACK SIGNATURE",
+        "size": "5M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542838974",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361672",
+        "color": "KHAKI/CHESTNUT",
+        "size": "7.5M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839148",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361673",
+        "color": "KHAKI/CHESTNUT",
+        "size": "8M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839155",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361674",
+        "color": "KHAKI/CHESTNUT",
+        "size": "8.5M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839162",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361675",
+        "color": "KHAKI/CHESTNUT",
+        "size": "9M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839179",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361668",
+        "color": "KHAKI/CHESTNUT",
+        "size": "5.5M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839100",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361669",
+        "color": "KHAKI/CHESTNUT",
+        "size": "6M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839117",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361670",
+        "color": "KHAKI/CHESTNUT",
+        "size": "6.5M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839124",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361671",
+        "color": "KHAKI/CHESTNUT",
+        "size": "7M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839131",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      },{
+        "upcID": "34361667",
+        "color": "KHAKI/CHESTNUT",
+        "size": "5M",
+        "retailPrice": "69.99",
+        "originalPrice": "69.99",
+        "type": "",
+        "upc": "888542839094",
+        "isAvailable": "true",
+        "shipDays": "2",
+        "availabilityMsg": "In Stock: Usually ships within 2 business days.",
+        "lowAvailabilityMessage": "",
+        "backOrderable": "false",
+        "availabilityOrderMethod": "POOL",
+        "inStoreEligible": "true"
+      }
+    ]
+  },
+  "sizeChartMap": {
+    "2201512": {
+      "sizeChart": "",
+      "intlSizeChart": "",
+      "sizeChartCanvasId": ""
+    }
+  },
+  "promoBadges": {
+    "productPromotions": [
+      {
+        "promotionId": "19866663",
+        "applicableToAllUPCs": true,
+        "badgeUnaryValue": "FREE SHIP AT $50",
+        "promoCode": ""
+      }
+    ],
+    "upcPromotions" : {
+    }
+  },
+  "internationalMode": "false",
+  "productTypeName": "SNEAKER",
+  "videoID": "",
+  "pageType": "SINGLE ITEM",
+  "mainImageURL": "https://macys-o.scene7.com/is/image/MCY/products/6/optimized/3669686_fpx.tif?op_sharpen=1&wid=400&hei=489&fit=fit,1&$filterlrg$",
+  "inStock": "true",
+  "salePrice": "69.99",
+  "brandName": "COACH",
+  "olapicEnabled": "true",
+  "trueFitEligible": true,
+  "checkInStoreEligibility": true,
+  "topLevelCategoryId": "",
+  "eligibleForPersonali": false,
+  "topLevelCategoryName": "",
+  "signedInUserHasRegistry": "false",
+  "siblingProductsIds": [],
+  "masterProductName": "",
+  "masterProductImage": "",
+  "masterProductUrl": ""
+}
