@@ -1,5 +1,6 @@
 package com.lhmtech.server.scheduleserver.service
 
+import com.lhmtech.server.scheduleserver.domain.SupportedTasks
 import com.lhmtech.server.scheduleserver.domain.Task
 import groovy.json.JsonBuilder
 import org.slf4j.Logger
@@ -29,4 +30,49 @@ class ScheduleServiceTest extends Specification {
         1 * mockPublisher.publish(taskJson)
         1 * mockLogger.info("scheduled task: task-json")
     }
+
+    def "create simple task"() {
+        given:
+        ScheduleService scheduleService = new ScheduleService()
+
+        when:
+        Task task = scheduleService.createSimpleTask("WHAT")
+
+        then:
+        task
+        task.id?.trim()
+        task.taskName == "WHAT"
+        task.dateCreated?.trim()
+        task.creator == "ScheduleService"
+    }
+
+    def "request update companies"() {
+        given:
+        ScheduleService scheduleService = new ScheduleService()
+        Task mockTask = Mock(Task)
+        Boolean createSimpleTaskCalled = false
+        Boolean scheduleCalled = false
+        scheduleService.metaClass.createSimpleTask = {
+            String name ->
+                assert name == SupportedTasks.UPDATE_COMPANY
+                createSimpleTaskCalled = true
+                mockTask
+        }
+        scheduleService.metaClass.schedule = {
+            Task task ->
+                assert task == mockTask
+                scheduleCalled = true
+        }
+
+        when:
+        scheduleService.updateCompanies()
+
+        then:
+        createSimpleTaskCalled
+        scheduleCalled
+
+    }
 }
+
+
+

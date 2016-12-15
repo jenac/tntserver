@@ -1,5 +1,6 @@
 package com.lhmtech.server.scheduleserver.service
 
+import com.lhmtech.server.scheduleserver.domain.SupportedTasks
 import com.lhmtech.server.scheduleserver.domain.Task
 import groovy.json.JsonBuilder
 import org.slf4j.Logger
@@ -22,13 +23,19 @@ class ScheduleService {
         logger.info("scheduled task: ${taskJson}")
     }
 
-    /*
-    @Scheduled(cron = "0 0 10 * * ?") //Every day at 10:00
-    void requestUpdateCompanies() {
-        logger.info("Request update company")
-        requestService.createRequest(Constants.UPDATE_COMPANY, scheduleCreator)
+    Task createSimpleTask(String name) {
+        new Task(
+                id: UUID.randomUUID().toString(),
+                taskName: name,
+                dateCreated: new Date().format('yyyy-MM-dd HH:mm:ss'),
+                creator: 'ScheduleService'
+        )
     }
-
+    @Scheduled(cron = "0 0 10 * * ?") //Every day at 10:00
+    void updateCompanies() {
+        schedule(createSimpleTask(SupportedTasks.UPDATE_COMPANY))
+    }
+/*
     @Scheduled(cron = "0 30 20 * * ?") //Every day at 20:30
     void requestUpdateDailyEods() {
         logger.info("Request update daily eod")
