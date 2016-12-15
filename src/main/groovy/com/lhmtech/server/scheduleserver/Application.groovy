@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @ComponentScan(basePackages = ["com.lhmtech.server.scheduleserver", "com.lhmtech.integration.messaging.rabbit"] )
 class Application {
 
-	//this is for test
 	static void main(String[] args) {
 		SpringApplication.run Application, args
 	}
