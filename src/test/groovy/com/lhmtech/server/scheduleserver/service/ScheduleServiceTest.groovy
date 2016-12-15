@@ -74,7 +74,41 @@ class ScheduleServiceTest extends Specification {
         scheduleSimpleTaskCalled
     }
 
+    def "update daily eods"() {
+        given:
+        ScheduleService scheduleService = new ScheduleService()
+        Boolean scheduleSimpleTaskCalled = false
 
+        scheduleService.metaClass.scheduleSimpleTask = {
+            String name ->
+                assert name == SupportedTasks.UPDATE_DAILY_EOD
+                scheduleSimpleTaskCalled = true
+        }
+
+        when:
+        scheduleService.updateDailyEods()
+
+        then:
+        scheduleSimpleTaskCalled
+    }
+
+    def "update weekly eods"() {
+        given:
+        ScheduleService scheduleService = new ScheduleService()
+        Boolean scheduleSimpleTaskCalled = false
+
+        scheduleService.metaClass.scheduleSimpleTask = {
+            String name ->
+                assert name == SupportedTasks.UPDATE_WEEKLY_EOD
+                scheduleSimpleTaskCalled = true
+        }
+
+        when:
+        scheduleService.updateWeeklyEods()
+
+        then:
+        scheduleSimpleTaskCalled
+    }
 }
 
 

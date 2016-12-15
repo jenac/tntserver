@@ -38,12 +38,11 @@ class ScheduleService {
         scheduleSimpleTask(SupportedTasks.UPDATE_COMPANY)
     }
 
-    /*
     @Scheduled(cron = "0 30 20 * * ?") //Every day at 20:30
-    void requestUpdateDailyEods() {
-        logger.info("Request update daily eod")
-        requestService.createRequest(Constants.UPDATE_DAILY_EOD, scheduleCreator)
+    void updateDailyEods() {
+        scheduleSimpleTask(SupportedTasks.UPDATE_DAILY_EOD)
     }
+    /*
 
     @Scheduled(cron = "0 30 21 * * ?") //Every day at 21:30
     void requestUpdateDailyIods() {
@@ -55,14 +54,14 @@ class ScheduleService {
     void requestPublishDailyIods() {
         logger.info("Request publish daily Iod")
         requestService.createRequest(Constants.PUBLISH_DAILY_IOD, scheduleCreator)
-    }
+    }*/
 
     @Scheduled(cron = "0 30 10 * * SAT") //Every Sat at 10:30
-    void requestUpdateWeeklyEods() {
-        logger.info("Request update weekly eod")
-        requestService.createRequest(Constants.UPDATE_WEEKLY_EOD, scheduleCreator)
+    void updateWeeklyEods() {
+        scheduleSimpleTask(SupportedTasks.UPDATE_WEEKLY_EOD)
     }
 
+    /*
     @Scheduled(cron = "0 0 12 * * SAT") //Every Sat at 12:00
     void requestUpdateWeeklyIods() {
         logger.info("Request update weekly Iod")
