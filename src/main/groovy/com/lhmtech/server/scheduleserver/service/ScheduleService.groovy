@@ -17,7 +17,8 @@ class ScheduleService {
     @Autowired
     ScheduleMessagePublisher scheduleMessagePublisher
 
-    void schedule(Task task) {
+    void scheduleSimpleTask(String taskName) {
+        Task task = createSimpleTask(taskName)
         String taskJson = new JsonBuilder(task).toPrettyString()
         scheduleMessagePublisher.publish(taskJson)
         logger.info("scheduled task: ${taskJson}")
@@ -31,11 +32,13 @@ class ScheduleService {
                 creator: 'ScheduleService'
         )
     }
+
     @Scheduled(cron = "0 0 10 * * ?") //Every day at 10:00
     void updateCompanies() {
-        schedule(createSimpleTask(SupportedTasks.UPDATE_COMPANY))
+        scheduleSimpleTask(SupportedTasks.UPDATE_COMPANY)
     }
-/*
+
+    /*
     @Scheduled(cron = "0 30 20 * * ?") //Every day at 20:30
     void requestUpdateDailyEods() {
         logger.info("Request update daily eod")
