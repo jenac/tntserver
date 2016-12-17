@@ -16,7 +16,7 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 jar {
-	baseName = 'tnt'
+	baseName = 'tntserver'
 	version = '1.0.0'
 }
 sourceCompatibility = 1.8
@@ -62,7 +62,15 @@ task runIntegrationTest(type: Test, dependsOn: assemble) {
 	description = 'Run integration tests'
 	outputs.upToDateWhen { false }
 	doFirst() {
-		tasks.startDocker.execute()
+		def count = 1
+		tasks.startDockerForIntegration.execute()
+		60.times {
+			if (!['curl', 'http://localhost:8080/info'].execute().text) {
+				println('waiting for applicaiton start ...' + count)
+				sleep(1000)
+				count++
+			}
+		}
 	}
 	testClassesDir = sourceSets.integrationSource.output.classesDir
 	classpath = sourceSets.integrationSource.runtimeClasspath
@@ -71,30 +79,59 @@ task runIntegrationTest(type: Test, dependsOn: assemble) {
 	afterSuite { desc, result ->
 		if (!desc.parent) {
 			println "Integration tests result: ${result.resultType} (total ${result.testCount} tests, ${result.successfulTestCount} succeeded, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped)"
-			tasks.stopDocker.execute()
+			tasks.stopDockerForIntegration.execute()
 		}
 	}
 }
 
-task startDocker() {
+task startDockerForIntegration(dependsOn: assemble) {
 	doLast {
 		exec {
-			commandLine 'docker-compose', 'up', '-d'
+			commandLine 'cp', jar.archivePath, 'build/tntserver.jar'
+		}
+		exec {
+			commandLine 'docker-compose', '-f', 'integration-docker.yml', 'up', '-d'
 		}
 	}
 }
 
-task stopDocker() {
+task stopDockerForIntegration() {
 	doLast {
 		exec {
-			commandLine 'docker-compose', 'stop'
+			commandLine 'docker-compose', '-f', 'integration-docker.yml', 'stop'
 			ignoreExitValue true
 		}
 		exec {
-			commandLine 'docker-compose', 'rm', '-f'
+			commandLine 'docker-compose', '-f', 'integration-docker.yml', 'rm', '-f'
+			ignoreExitValue true
+		}
+		exec {
+			commandLine 'rm', '-f', 'build/tntserver.jar'
 			ignoreExitValue true
 		}
 	}
 }
+
+task startDockerForDebugging() {
+	doLast {
+		exec {
+			commandLine 'docker-compose', '-f', 'debugging-docker.yml', 'up', '-d'
+		}
+	}
+}
+
+task stopDockerForDebugging() {
+	doLast {
+		exec {
+			commandLine 'docker-compose', '-f', 'debugging-docker.yml', 'stop'
+			ignoreExitValue true
+		}
+		exec {
+			commandLine 'docker-compose', '-f', 'debugging-docker.yml', 'rm', '-f'
+			ignoreExitValue true
+		}
+	}
+}
+
 
 test.finalizedBy(runIntegrationTest)
