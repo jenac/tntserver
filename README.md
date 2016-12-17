@@ -15,11 +15,14 @@ Backend for Tool Sharing Application
 * [Setup Develop Environment](https://bitbucket.org/tntowners/tntserver/wiki/Develop%20Environment%20Setup)
 * Gradle command in project
     * build whole project and run tests: `./gradlew clean build`
-    * start docker for dependencies: `./gradlew startDocker`
-    * stop and remove docker: `./gradlew stopDocker`
+    * start docker for dependencies: `./gradlew startDockerForDebugging`
+    * stop and remove docker: `./gradlew stopDockerForDebugging`
 * How to run tests
 * Deployment instructions
 
+
+### Continuous Integration ###
+* Travis CI
 ### Contribution guidelines ###
 
 * Writing tests
