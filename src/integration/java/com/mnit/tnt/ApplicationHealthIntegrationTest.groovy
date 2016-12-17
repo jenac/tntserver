@@ -1,6 +1,7 @@
 package com.mnit.tnt
 
 import groovyx.net.http.RESTClient
+import org.springframework.http.HttpStatus
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -33,6 +34,5 @@ class ApplicationHealthIntegrationTest extends Specification {
         then:
         response.status == HttpStatus.OK.value()
         response.data.status == 'UP'
-        response.data.mongo.status == 'UP'
     }
 }
