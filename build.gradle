@@ -1,0 +1,100 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.2.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+jar {
+	baseName = 'tnt'
+	version = '1.0.0'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-data-neo4j')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-actuator-docs')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.spockframework:spock-core:1.0-groovy-2.4')
+	testCompile("org.spockframework:spock-spring:1.0-groovy-2.4")
+	testCompile("org.codehaus.groovy.modules.http-builder:http-builder:0.7.1")
+	testCompile("cglib:cglib:3.1")
+}
+
+sourceSets {
+	integrationSource {
+		java { srcDirs = ['src/integration/java'] }
+		groovy { srcDirs = ['src/integration/java'] }
+		compileClasspath += sourceSets.test.compileClasspath
+		runtimeClasspath += sourceSets.test.runtimeClasspath
+	}
+}
+
+test {
+	testLogging {
+		afterSuite { desc, result ->
+			if (!desc.parent) {
+				println "Test result: ${result.resultType} (total ${result.testCount} tests, ${result.successfulTestCount} succeeded, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped)"
+			}
+		}
+	}
+}
+
+task runIntegrationTest(type: Test, dependsOn: assemble) {
+	description = 'Run integration tests'
+	outputs.upToDateWhen { false }
+	doFirst() {
+		tasks.startDocker.execute()
+	}
+	testClassesDir = sourceSets.integrationSource.output.classesDir
+	classpath = sourceSets.integrationSource.runtimeClasspath
+	reports.junitXml.destination = 'build/test-results'
+	reports.html.destination = 'build/reports/integrationTests'
+	afterSuite { desc, result ->
+		if (!desc.parent) {
+			println "Integration tests result: ${result.resultType} (total ${result.testCount} tests, ${result.successfulTestCount} succeeded, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped)"
+			tasks.stopDocker.execute()
+		}
+	}
+}
+
+task startDocker() {
+	doLast {
+		exec {
+			commandLine 'docker-compose', 'up', '-d'
+		}
+	}
+}
+
+task stopDocker() {
+	doLast {
+		exec {
+			commandLine 'docker-compose', 'stop'
+			ignoreExitValue true
+		}
+		exec {
+			commandLine 'docker-compose', 'rm', '-f'
+			ignoreExitValue true
+		}
+	}
+}
+
+test.finalizedBy(runIntegrationTest)
