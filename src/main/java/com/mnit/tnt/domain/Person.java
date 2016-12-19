@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by lihe on 16-12-19.
@@ -19,6 +21,11 @@ public class Person{
 
     private String firstName;
     private String lastName;
+
+    private int born;
+
+    @Relationship(type = "ACTED_IN")
+    private List<Movie> movies;
 
     public String getFirstName() {
         return firstName;
@@ -34,5 +41,21 @@ public class Person{
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public int getBorn() {
+        return born;
+    }
+
+    public void setBorn(int born) {
+        this.born = born;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 }
