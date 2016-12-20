@@ -7,6 +7,7 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.RelationshipEntity;
 import org.neo4j.ogm.annotation.StartNode;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class Role {
     @GraphId
     private Long id;
 
-    private List<String> roles;
+    private Collection<String> roles;
 
     @StartNode
     private Person person;
@@ -27,11 +28,11 @@ public class Role {
     @EndNode
     private Movie movie;
 
-    public List<String> getRoles() {
+    public Collection<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(Collection<String> roles) {
         this.roles = roles;
     }
 
