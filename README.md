@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/tnt-develop-team/tntserver.png?label=ready&title=Ready)](https://waffle.io/tnt-develop-team/tntserver)
 # TnT Server #
 
 Backend for Tool Sharing Application
