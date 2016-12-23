@@ -63,7 +63,7 @@ task runIntegrationTest(type: Test, dependsOn: assemble) {
 	outputs.upToDateWhen { false }
 	doFirst() {
 		def count = 1
-		tasks.startDockerForIntegration.execute()
+		tasks.startIDocker.execute()
 		60.times {
 			if (!['curl', 'http://localhost:8080/info'].execute().text) {
 				println('waiting for applicaiton start ...' + count)
@@ -79,12 +79,12 @@ task runIntegrationTest(type: Test, dependsOn: assemble) {
 	afterSuite { desc, result ->
 		if (!desc.parent) {
 			println "Integration tests result: ${result.resultType} (total ${result.testCount} tests, ${result.successfulTestCount} succeeded, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped)"
-			tasks.stopDockerForIntegration.execute()
+			tasks.stopIDocker.execute()
 		}
 	}
 }
 
-task startDockerForIntegration(dependsOn: assemble) {
+task startIDocker(dependsOn: assemble) {
 	doLast {
 		exec {
 			commandLine 'cp', jar.archivePath, 'build/tntserver.jar'
@@ -95,7 +95,7 @@ task startDockerForIntegration(dependsOn: assemble) {
 	}
 }
 
-task stopDockerForIntegration() {
+task stopIDocker() {
 	doLast {
 		exec {
 			commandLine 'docker-compose', '-f', 'integration-docker.yml', 'stop'
@@ -112,7 +112,7 @@ task stopDockerForIntegration() {
 	}
 }
 
-task startDockerForDebugging() {
+task startDDocker() {
 	doLast {
 		exec {
 			commandLine 'docker-compose', '-f', 'debugging-docker.yml', 'up', '-d'
@@ -120,7 +120,7 @@ task startDockerForDebugging() {
 	}
 }
 
-task stopDockerForDebugging() {
+task stopDDocker() {
 	doLast {
 		exec {
 			commandLine 'docker-compose', '-f', 'debugging-docker.yml', 'stop'
