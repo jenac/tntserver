@@ -11,7 +11,7 @@ script:
     - git commit -am 'increase build version'
     - git remote set-url origin https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git
     - git branch
-    - git push origin test-version
+    - git push -u origin test-version
 #    - git push -f -q https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git HEAD &2>/dev/null
 
 env:
