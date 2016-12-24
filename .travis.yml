@@ -3,11 +3,20 @@ language: java
 jdk:
   - oraclejdk8
 
+branches:
+  only:
+    - master
+
 script:
     - ./gradlew clean build
     - ./gradlew increaseBuildNumber
-    - git -c user.name='TravisCI' -c user.email='lihe.chen@gmail.com' commit -am 'increase build version'
-    - git push -f -q https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver HEAD &2>/dev/null
+    - git config --global user.name 'Travis CI'
+    - git config --global user.email 'lihe.chen@gmail.com'
+    - git commit -am 'increase build version'
+    - git remote set-url origin https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git
+    - git branch
+    - git push -u origin master
+#    - git push -f -q https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git HEAD &2>/dev/null
 
 env:
   DOCKER_COMPOSE_VERSION: 1.4.2
