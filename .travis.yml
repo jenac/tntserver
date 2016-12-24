@@ -5,6 +5,9 @@ jdk:
 
 script:
     - ./gradlew clean build
+    - ./gradlew increaseBuildNumber
+    - git commit -am 'increase build version'
+    - git push
 
 env:
   DOCKER_COMPOSE_VERSION: 1.4.2
