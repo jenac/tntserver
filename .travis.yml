@@ -18,7 +18,7 @@ script:
     - git commit -am 'increase build version [ci skip]'
     - cat src/main/resources/build.properties
     - git branch
-    - git push -u origin master
+    - git push -u origin master &2>/dev/null
 #    - git push -f -q https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git HEAD &2>/dev/null
 
 env:
