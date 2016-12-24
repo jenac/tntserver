@@ -15,7 +15,7 @@ script:
     - git config --global user.name 'Travis CI'
     - git config --global user.email 'lihe.chen@gmail.com'
     - git commit -am 'increase build version'
-    - cat /src/main/resources/build.properties
+    - cat src/main/resources/build.properties
     - git branch
     - git push -u origin master
 #    - git push -f -q https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git HEAD &2>/dev/null
