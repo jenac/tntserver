@@ -15,10 +15,24 @@ apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
-jar {
-	baseName = 'tntserver'
-	version = '1.0.0'
+ext {
+	appName = 'tntserver'
+
+	getBuildNumber = {
+		File  buildProprotiesFile = new File('src/main/resources/build.properties')
+		Properties versionProps = new Properties()
+		versionProps.load(new FileInputStream(buildProprotiesFile))
+		return versionProps['info.app.version']
+	}
 }
+version=getBuildNumber()
+group 'com.lhmtech.commerce'
+jar {
+	baseName = "$appName"
+	libsDirName = "libs/com/mnit/tnt/${appName}/${version}"
+}
+
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -130,6 +144,22 @@ task stopDDocker() {
 			commandLine 'docker-compose', '-f', 'debugging-docker.yml', 'rm', '-f'
 			ignoreExitValue true
 		}
+	}
+}
+
+task increaseBuildNumber() {
+	doLast {
+		File  buildProprotiesFile = new File('src/main/resources/build.properties')
+		Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(buildProprotiesFile))
+
+		String version = versionProps['info.app.version']
+        List<String> versionParts  = version.tokenize('.')
+        versionParts[2] = versionParts[2].toInteger() + 1
+        String newVersion = versionParts.join('.')
+        versionProps['info.app.version'] = newVersion
+        versionProps.store(buildProprotiesFile.newWriter(), null)
+        println("Build version increase from ${version} to ${newVersion}")
 	}
 }
 
