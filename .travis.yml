@@ -6,9 +6,8 @@ jdk:
 script:
     - ./gradlew clean build
     - ./gradlew increaseBuildNumber
-    - git commit -am 'increase build version'
-    - openssl aes-256-cbc -K $encrypted_f582ed59565f_key -iv $encrypted_f582ed59565f_iv -in github_deploy_key.enc -out github_deploy_key -d
-    - git push origin HEAD
+    - git -c user.name='TravisCI' -c user.email='lihe.chen@gmail.com' commit -am 'increase build version'
+    - git push -f -q https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver HEAD &2>/dev/null
 
 env:
   DOCKER_COMPOSE_VERSION: 1.4.2
@@ -22,4 +21,3 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - openssl aes-256-cbc -K $encrypted_f582ed59565f_key -iv $encrypted_f582ed59565f_iv -in github_deploy_key.enc -out github_deploy_key -d
