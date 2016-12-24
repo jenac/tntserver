@@ -7,7 +7,8 @@ script:
     - ./gradlew clean build
     - ./gradlew increaseBuildNumber
     - git -c user.name='TravisCI' -c user.email='lihe.chen@gmail.com' commit -am 'increase build version'
-    - git push -f -q https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver HEAD &2>/dev/null
+#    - git remote set-url origin https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git
+    - git push -f -q https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git HEAD &2>/dev/null
 
 env:
   DOCKER_COMPOSE_VERSION: 1.4.2
