@@ -7,6 +7,10 @@ branches:
   only:
     - master
 
+ignore:
+  - *.md
+  - src/main/resources/build.properties
+
 script:
     - git remote set-url origin https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git
     - git checkout master
