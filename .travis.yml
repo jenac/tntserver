@@ -10,6 +10,7 @@ branches:
 script:
     - git remote set-url origin https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git
     - git checkout master
+    - git branch --set-upstream-to=origin/master master
     - ./gradlew clean build
     - ./gradlew increaseBuildNumber
     - git config --global user.name 'Travis CI'
