@@ -12,4 +12,3 @@ public class TntApplication {
 		SpringApplication.run(TntApplication.class, args);
 	}
 }
-//some changes here for test
