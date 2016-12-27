@@ -163,5 +163,16 @@ task increaseBuildNumber() {
 	}
 }
 
+task stageReleaseFile(dependsOn: assemble) {
+	doLast {
+		exec{
+			commandLine 'mkdir', '-p', 'stage'
+			ignoreExitValue true
+		}
+		exec {
+			commandLine 'cp', jar.archivePath, 'stage/'
+		}
+	}
+}
 
 test.finalizedBy(runIntegrationTest)
