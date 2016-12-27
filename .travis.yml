@@ -40,8 +40,9 @@ after_success:
     git commit -am "increase build version [ci skip]";
     cat src/main/resources/build.properties;
     git push -u origin master;
-    ./gradlew stageReleaseFile;
     fi'
+
+before_deploy: "./gradlew stageReleaseFile"
 
 deploy:
   provider: releases
