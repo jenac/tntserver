@@ -40,4 +40,13 @@ after_success:
     git commit -am "increase build version [ci skip]";
     cat src/main/resources/build.properties;
     git push -u origin master;
+    ./gradlew stageReleaseFile;
     fi'
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_API_KEY
+  file: 'stage/*.jar'
+  skip_cleanup: true
+  on:
+    tags: true
