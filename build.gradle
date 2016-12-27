@@ -165,7 +165,10 @@ task increaseBuildNumber() {
 
 task stageReleaseFile(dependsOn: assemble) {
 	doLast {
-		exec{
+		exec {
+			commandLine 'git', 'tag', '-a', version, '-m', '"tagged by CI release [ci skip]"'
+		}
+		exec {
 			commandLine 'mkdir', '-p', 'stage'
 			ignoreExitValue true
 		}
