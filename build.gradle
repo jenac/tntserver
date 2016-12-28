@@ -163,20 +163,25 @@ task increaseBuildNumber() {
 	}
 }
 
-task stageReleaseFile(dependsOn: assemble) {
+task stageReleaseFile() {
 	doLast {
-		exec {
-			commandLine 'git', 'tag', '-a', "v${version}", '-m', '"tagged by CI release"'
-		}
-		exec {
-			commandLine 'git', 'push', 'origin', '--tags'
-		}
 		exec {
 			commandLine 'mkdir', '-p', 'stage'
 			ignoreExitValue true
 		}
 		exec {
 			commandLine 'cp', jar.archivePath, 'stage/'
+		}
+	}
+}
+
+task tagReleaseVersion(dependsOn: assemble) {
+	doLast {
+		exec {
+			commandLine 'git', 'tag', '-a', "${version}", '-m', '"tagged by CI release"'
+		}
+		exec {
+			commandLine 'git', 'push', 'origin', '--tags'
 		}
 	}
 }
