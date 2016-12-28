@@ -13,7 +13,7 @@ Backend for Tool Sharing Application
 
 ### How do I get set up? ###
 
-* [Setup Develop Environment](https://bitbucket.org/tntowners/tntserver/wiki/Develop%20Environment%20Setup)
+* [Setup Develop Environment](https://github.com/tnt-develop-team/tntserver/wiki/Develop-Environment-Setup)
 * Gradle command in project
     * build whole project and run tests: `./gradlew clean build`
     * start docker for debugging: `./gradlew startDDocker`
