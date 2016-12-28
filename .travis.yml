@@ -3,10 +3,10 @@ language: java
 jdk:
   - oraclejdk8
 
-branches:
-  only:
-    - master
-    - /v\d+\.\d+[a-z]/
+#branches:
+#  only:
+#    - master
+#    - /v\d+\.\d+[a-z]/
 
 script:
     - git remote set-url origin https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git
