@@ -169,6 +169,9 @@ task stageReleaseFile(dependsOn: assemble) {
 			commandLine 'git', 'tag', '-a', version, '-m', '"tagged by CI release [ci skip]"'
 		}
 		exec {
+			commandLine 'git', 'push', 'origin', '--tags'
+		}
+		exec {
 			commandLine 'mkdir', '-p', 'stage'
 			ignoreExitValue true
 		}

@@ -34,10 +34,10 @@ before_install:
 
 after_success:
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ];
-    then ./gradlew stageReleaseFile;
-    ./gradlew increaseBuildNumber;
-    git config --global user.name "Travis CI";
+    then git config --global user.name "Travis CI";
     git config --global user.email "lihe.chen@gmail.com";
+    ./gradlew stageReleaseFile;
+    ./gradlew increaseBuildNumber;
     git commit -am "increase build version [ci skip]";
     cat src/main/resources/build.properties;
     git push -u origin master;
