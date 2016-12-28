@@ -1,5 +1,6 @@
 #! /bin/bash
-if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+
     git config --global user.name "Travis CI"
     git config --global user.email "lihe.chen@gmail.com"
     git remote set-url origin https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git
