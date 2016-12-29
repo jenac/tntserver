@@ -9,6 +9,9 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
         git commit -am "increase build version [ci skip]"
         cat src/main/resources/build.properties
         git push -u origin master
+    else
+        ./gradlew stageReleaseFile
+        ls stage/*.jar
+        echo "$TRAVIS_BRANCH"
     fi
-    ./gradlew stageReleaseFile
 fi
