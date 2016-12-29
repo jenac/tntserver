@@ -39,7 +39,7 @@ after_success:
 deploy:
   provider: releases
   api_key: $GITHUB_API_KEY
-  file: 'stage/*.jar'
+  file: "stage/tntserver-$TRAVIS_BRANCH.jar"
   skip_cleanup: true
   on:
     tags: true
