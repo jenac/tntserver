@@ -5,10 +5,11 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     git remote set-url origin https://jenac:$GITHUB_API_KEY@github.com/tnt-develop-team/tntserver.git
     if [ "$TRAVIS_BRANCH" == "master" ]; then
         ./gradlew tagReleaseVersion
+        git checkout master
         ./gradlew increaseBuildNumber
         git commit -am "increase build version [ci skip]"
         cat src/main/resources/build.properties
-        git push origin HEAD
+        git push origin master
     else
         ./gradlew stageReleaseFile
         ls stage/*.jar
