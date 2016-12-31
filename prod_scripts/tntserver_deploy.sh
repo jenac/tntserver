@@ -20,6 +20,7 @@ done
 if [[ $RETVAL -eq 0 ]];then
 	echo 'download successful, replace file and restart service'
 	mv $WORKING_FOLDER/stage-$VERSION.jar $WORKING_FOLDER/tntserver.jar
+	chmod a+x $WORKING_FOLDER/tntserver.jar
 	service tntserver restart
 fi
 exit $RETVAL
