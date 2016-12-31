@@ -1,0 +1,13 @@
+[Unit]
+Description=TnT Server
+#should after neo4J in the future
+After=syslog.target
+
+[Service]
+User=tntuser
+#to pass params: JAVA_OPTS="-Dpropertykey=propvalue" ./myapp.jar
+ExecStart=/home/tntuser/tntserver/tntserver.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
