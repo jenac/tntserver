@@ -34,7 +34,7 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 after_success:
-  - ./deploy.sh
+  - ci_scripts/deploy.sh
 
 deploy:
   provider: releases
@@ -45,4 +45,4 @@ deploy:
     tags: true
 
 after_deploy:
-  - ./publish.sh
+  - ci_scripts/publish.sh

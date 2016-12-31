@@ -186,4 +186,8 @@ task tagReleaseVersion(dependsOn: assemble) {
 	}
 }
 
+springBoot {
+	executable = true
+}
+
 test.finalizedBy(runIntegrationTest)
