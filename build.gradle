@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.4.2.RELEASE'
+		springBootVersion = '1.4.0.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -13,7 +13,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
+apply plugin: 'spring-boot'
 
 ext {
 	appName = 'tntserver'
@@ -42,10 +42,14 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-neo4j')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-actuator')
-	compile('org.springframework.boot:spring-boot-actuator-docs')
+	compile("org.springframework.boot:spring-boot-starter-data-neo4j:${springBootVersion}")
+	compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+	compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+	compile("org.springframework.boot:spring-boot-actuator-docs:${springBootVersion}")
+	compile("org.springframework.boot:spring-boot-starter-data-rest:${springBootVersion}")
+	compile("org.hibernate:hibernate-validator")
+	compile("com.voodoodyne.jackson.jsog:jackson-jsog:1.1")
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.spockframework:spock-core:1.0-groovy-2.4')
 	testCompile("org.spockframework:spock-spring:1.0-groovy-2.4")
