@@ -1,4 +1,5 @@
 language: java
+
 jdk:
   - oraclejdk8
 
@@ -17,16 +18,20 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
-#branches:
-#  only:
-#    - master
-#    - /v\d+\.\d+[a-z]/
-before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+branches:
+  only:
+    - master
 
-script:
-    - ./gradlew clean build
+#after_success:
+#  - ci_scripts/deploy.sh
+
+#deploy:
+#  provider: releases
+#  api_key: $GITHUB_API_KEY
+#  file: "stage/tntserver-$TRAVIS_BRANCH.jar"
+#  skip_cleanup: true
+#  on:
+#    tags: true
+
+#after_deploy:
+#  - ci_scripts/publish.sh
