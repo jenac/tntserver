@@ -2,7 +2,7 @@
 if [ "$TRAVIS_BRANCH" == "master" ]; then
     git config --global user.name "Travis CI"
     git config --global user.email "lihe.chen@gmail.com"
-    git remote set-url origin https://jenac:$LHMTECH-CI-TOKEN@github.com/tnt-develop-team/tntserver.git
+    git remote set-url origin https://jenac:$LHMTECH_CI_TOKEN@github.com/tnt-develop-team/tntserver.git
     ./gradlew tagReleaseVersion
     git checkout master
     ./gradlew increaseBuild
