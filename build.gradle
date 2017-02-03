@@ -108,3 +108,4 @@ artifactory {
 
 apply from: 'tests.gradle'
 apply from: 'bintray.gradle'
+apply from: 'travis.gradle'

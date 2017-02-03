@@ -22,8 +22,8 @@ branches:
   only:
     - master
 
-#after_success:
-#  - ci_scripts/deploy.sh
+after_success:
+  - ci/postbuild.sh
 
 #deploy:
 #  provider: releases
