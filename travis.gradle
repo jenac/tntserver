@@ -1,0 +1,22 @@
+task stageJarFile() {
+    doLast {
+        exec {
+            commandLine 'mkdir', '-p', 'stage'
+            ignoreExitValue true
+        }
+        exec {
+            commandLine 'cp', jar.archivePath, 'stage/'
+        }
+    }
+}
+
+task tagReleaseVersion(dependsOn: assemble) {
+    doLast {
+        exec {
+            commandLine 'git', 'tag', '-a', "${version}", '-m', '"tagged by CI release"'
+        }
+        exec {
+            commandLine 'git', 'push', 'origin', '--tags'
+        }
+    }
+}
