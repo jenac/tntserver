@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.4.2.RELEASE'
+		springBootVersion = '1.5.1.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -42,14 +42,15 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-neo4j')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-actuator')
-	compile('org.springframework.boot:spring-boot-actuator-docs')
-	compileOnly('org.projectlombok:lombok')
+	compile("org.springframework.boot:spring-boot-starter-data-neo4j:${springBootVersion}")
+	compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+	compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+	compile("org.springframework.boot:spring-boot-actuator-docs:${springBootVersion}")
+	compile("org.springframework.boot:spring-boot-starter-data-rest:${springBootVersion}")
+	compileOnly("org.projectlombok:lombok")
 	compile("com.voodoodyne.jackson.jsog:jackson-jsog:1.1")
 
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 	testCompile('org.spockframework:spock-core:1.0-groovy-2.4')
 	testCompile("org.spockframework:spock-spring:1.0-groovy-2.4")
 	testCompile("org.codehaus.groovy.modules.http-builder:http-builder:0.7.1")
