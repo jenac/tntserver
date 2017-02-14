@@ -47,7 +47,7 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
 	compile("org.springframework.boot:spring-boot-actuator-docs:${springBootVersion}")
 	compile("org.springframework.boot:spring-boot-starter-data-rest:${springBootVersion}")
-	compileOnly("org.projectlombok:lombok")
+//	compileOnly("org.projectlombok:lombok")
 	compile("com.voodoodyne.jackson.jsog:jackson-jsog:1.1")
 
 	testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
