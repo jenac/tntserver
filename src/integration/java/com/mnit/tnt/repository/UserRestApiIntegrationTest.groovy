@@ -2,6 +2,8 @@ package com.mnit.tnt.repository
 
 import groovyx.net.http.RESTClient
 import org.springframework.http.HttpStatus
+import spock.lang.Ignore
+
 import static groovyx.net.http.ContentType.JSON
 import spock.lang.Shared
 import spock.lang.Specification
@@ -10,6 +12,7 @@ import spock.lang.Specification
 /**
  * Created by lihe on 16-12-16.
  */
+@Ignore
 class UserRestApiIntegrationTest extends Specification {
     @Shared
     RESTClient restClient
@@ -17,6 +20,7 @@ class UserRestApiIntegrationTest extends Specification {
     def setup() {
         restClient = new RESTClient('http://localhost:8080')
     }
+
 
     def 'get user list from /users'() {
         when:
