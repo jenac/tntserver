@@ -13,3 +13,5 @@ tntserver:
   volumes:
     - ./build:/application
   command: java -jar /application/tntserver.jar
+  links:
+    - neo4j
