@@ -10,7 +10,7 @@ services:
 
   tntserver:
     build: .
-    image: "tntserver:1.0.0"
+    image: "${appName}:${version}"
     ports:
       - "8080:8080"
   #  command: watch df -h

@@ -21,7 +21,7 @@ script:
 #    - git push -u origin master &2>/dev/null
 
 env:
-  DOCKER_COMPOSE_VERSION: 1.4.2
+  DOCKER_COMPOSE_VERSION: 1.11.1
 
 services:
   - docker

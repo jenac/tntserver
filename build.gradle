@@ -108,6 +108,8 @@ task startIDocker(dependsOn: assemble) {
 			commandLine 'cp', jar.archivePath, 'docker_app/tntserver.jar'
 		}
 		exec {
+			environment "appName", "${appName}"
+			environment "version", "${version}"
 			commandLine 'docker-compose', '-f', 'integration-docker.yml', 'up', '-d'
 		}
 	}
@@ -121,6 +123,10 @@ task stopIDocker() {
 		}
 		exec {
 			commandLine 'docker-compose', '-f', 'integration-docker.yml', 'rm', '-f'
+			ignoreExitValue true
+		}
+		exec {
+			commandLine "docker", "rmi", "${appName}:${version}"
 			ignoreExitValue true
 		}
 		exec {
