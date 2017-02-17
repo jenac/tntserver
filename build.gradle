@@ -105,7 +105,7 @@ task runIntegrationTest(type: Test, dependsOn: assemble) {
 task startIDocker(dependsOn: assemble) {
 	doLast {
 		exec {
-			commandLine 'cp', jar.archivePath, 'build/tntserver.jar'
+			commandLine 'cp', jar.archivePath, 'docker_app/tntserver.jar'
 		}
 		exec {
 			commandLine 'docker-compose', '-f', 'integration-docker.yml', 'up', '-d'
@@ -124,7 +124,7 @@ task stopIDocker() {
 			ignoreExitValue true
 		}
 		exec {
-			commandLine 'rm', '-f', 'build/tntserver.jar'
+			commandLine 'rm', '-f', 'docker_app/tntserver.jar'
 			ignoreExitValue true
 		}
 	}
