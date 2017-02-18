@@ -118,14 +118,20 @@ task startIDocker(dependsOn: assemble) {
 task stopIDocker() {
 	doLast {
 		exec {
+			environment "appName", "${appName}"
+			environment "version", "${version}"
 			commandLine 'docker-compose', '-f', 'integration-docker.yml', 'stop'
 			ignoreExitValue true
 		}
 		exec {
+			environment "appName", "${appName}"
+			environment "version", "${version}"
 			commandLine 'docker-compose', '-f', 'integration-docker.yml', 'rm', '-f'
 			ignoreExitValue true
 		}
 		exec {
+			environment "appName", "${appName}"
+			environment "version", "${version}"
 			commandLine "docker", "rmi", "${appName}:${version}"
 			ignoreExitValue true
 		}

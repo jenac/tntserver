@@ -21,12 +21,6 @@ class UserRestApiIntegrationTest extends Specification {
         restClient = new RESTClient('http://localhost:8080')
     }
 
-    /*
-    @Before
-    public void deleteAllBeforeTests() throws Exception {
-        personRepository.deleteAll();
-    }*/
-
     def 'get user list from /user'() {
         when:
         def response = restClient.get(path: '/user')
@@ -41,7 +35,7 @@ class UserRestApiIntegrationTest extends Specification {
         json._links.self.href == "http://localhost:8080/user"
     }
 
-    def 'crud user by post/get/put/delete to /user'() {
+    def 'crud user by post/get/put/patch/delete to /user'() {
         //create: post
         when:
         def response = restClient.post(path: '/user',
@@ -108,20 +102,20 @@ class UserRestApiIntegrationTest extends Specification {
         putJson.dateUpdated == null
         putJson._links.self.href == location
         putJson._links.user.href == location
-/*
-        //update partially: post
+
+        //update partially: patch
         when:
-        response = restClient.post(path: location,
-                body: [userName     : 'post-some-user',
-                       password     : 'post-passw0rd'], requestContentType: JSON)
+        response = restClient.patch(path: location,
+                body: [userName     : 'patch-some-user',
+                       password     : 'patch-passw0rd'], requestContentType: JSON)
 
         then:
+        //why 200 not 204 with no content?
         response.status == HttpStatus.OK.value()
         response.headers.'Content-Type'.toString() == 'application/hal+json;charset=UTF-8'
-        response.headers.'Location'.toString() == location
         def postJson = parseResponseJson(response)
-        postJson.userName == "post-some-user"
-        postJson.password == "post-passw0rd"
+        postJson.userName == "patch-some-user"
+        postJson.password == "patch-passw0rd"
         postJson.firstName == "put-first"
         postJson.lastName == "put-last"
         postJson.email == "put-email"
@@ -131,7 +125,13 @@ class UserRestApiIntegrationTest extends Specification {
         postJson.dateUpdated == null
         postJson._links.self.href == location
         postJson._links.user.href == location
-*/
+
+        //delete: delete
+        when:
+        response = restClient.delete(path: location)
+
+        then:
+        response.status == HttpStatus.NO_CONTENT.value()
     }
 
     Map parseResponseJson(response) {
@@ -140,56 +140,3 @@ class UserRestApiIntegrationTest extends Specification {
     }
 }
 
-/*
-
-
-@Test
-public void shouldUpdateEntity() throws Exception {
-
-    MvcResult mvcResult = mockMvc.perform(post("/people").content(
-            "{\"firstName\": \"Frodo\", \"lastName\":\"Baggins\"}")).andExpect(
-            status().isCreated()).andReturn();
-
-    String location = mvcResult.getResponse().getHeader("Location");
-
-    mockMvc.perform(put(location).content(
-            "{\"firstName\": \"Bilbo\", \"lastName\":\"Baggins\"}")).andExpect(
-            status().isNoContent());
-
-    mockMvc.perform(get(location)).andExpect(status().isOk()).andExpect(
-            jsonPath("$.firstName").value("Bilbo")).andExpect(
-            jsonPath("$.lastName").value("Baggins"));
-}
-
-@Test
-public void shouldPartiallyUpdateEntity() throws Exception {
-
-    MvcResult mvcResult = mockMvc.perform(post("/people").content(
-            "{\"firstName\": \"Frodo\", \"lastName\":\"Baggins\"}")).andExpect(
-            status().isCreated()).andReturn();
-
-    String location = mvcResult.getResponse().getHeader("Location");
-
-    mockMvc.perform(
-            patch(location).content("{\"firstName\": \"Bilbo Jr.\"}")).andExpect(
-            status().isNoContent());
-
-    mockMvc.perform(get(location)).andExpect(status().isOk()).andExpect(
-            jsonPath("$.firstName").value("Bilbo Jr.")).andExpect(
-            jsonPath("$.lastName").value("Baggins"));
-}
-
-@Test
-public void shouldDeleteEntity() throws Exception {
-
-    MvcResult mvcResult = mockMvc.perform(post("/people").content(
-            "{ \"firstName\": \"Bilbo\", \"lastName\":\"Baggins\"}")).andExpect(
-            status().isCreated()).andReturn();
-
-    String location = mvcResult.getResponse().getHeader("Location");
-    mockMvc.perform(delete(location)).andExpect(status().isNoContent());
-
-    mockMvc.perform(get(location)).andExpect(status().isNotFound());
-}
-
-}*/
