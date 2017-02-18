@@ -35,7 +35,7 @@ class UserRestApiIntegrationTest extends Specification {
         json._links.self.href == "http://localhost:8080/user"
     }
 
-    def 'crud user by post/get/put/patch/delete to /user'() {
+    def 'post to /user creates new user' () {
         //create: post
         when:
         def response = restClient.post(path: '/user',
@@ -54,10 +54,14 @@ class UserRestApiIntegrationTest extends Specification {
         response.headers.'Content-Type'.toString() == 'application/hal+json;charset=UTF-8'
         String location = response.headers.'Location'.toString()
         location.startsWith('http://localhost:8080/user/')
+    }
 
+    def 'get to /user/id read user'() {
+        given:
+        String location = createUserForTest()
         //read: get
         when:
-        response = restClient.get(path: location)
+        def response = restClient.get(path: location)
 
         then:
         response.status == HttpStatus.OK.value()
@@ -72,10 +76,15 @@ class UserRestApiIntegrationTest extends Specification {
         getJson.valid == true
         getJson.dateCreated == null
         getJson.dateUpdated == null
+    }
+
+    def 'put to /user/id for full update user'() {
+        given:
+        String location = createUserForTest()
 
         //update: put, put is idempotent only for full update
         when:
-        response = restClient.put(path: location,
+        def response = restClient.put(path: location,
                 body: [userName     : 'put-some-user',
                        password     : 'put-passw0rd',
                        firstName    : 'put-first',
@@ -102,12 +111,17 @@ class UserRestApiIntegrationTest extends Specification {
         putJson.dateUpdated == null
         putJson._links.self.href == location
         putJson._links.user.href == location
+    }
+
+    def 'patch to /user/id for partial update'() {
+        given:
+        String location = createUserForTest()
 
         //update partially: patch
         when:
-        response = restClient.patch(path: location,
-                body: [userName     : 'patch-some-user',
-                       password     : 'patch-passw0rd'], requestContentType: JSON)
+        def response = restClient.patch(path: location,
+                body: [userName: 'patch-some-user',
+                       password: 'patch-passw0rd'], requestContentType: JSON)
 
         then:
         //why 200 not 204 with no content?
@@ -116,22 +130,47 @@ class UserRestApiIntegrationTest extends Specification {
         def postJson = parseResponseJson(response)
         postJson.userName == "patch-some-user"
         postJson.password == "patch-passw0rd"
-        postJson.firstName == "put-first"
-        postJson.lastName == "put-last"
-        postJson.email == "put-email"
-        postJson.stormPathHref == "put-href"
-        postJson.valid == false
+        postJson.firstName == "first"
+        postJson.lastName == "last"
+        postJson.email == "email"
+        postJson.stormPathHref == "href"
+        postJson.valid == true
         postJson.dateCreated == null
         postJson.dateUpdated == null
         postJson._links.self.href == location
         postJson._links.user.href == location
+    }
 
+    def 'delete to /user/id to delete user'() {
+        given:
+        String location = createUserForTest()
         //delete: delete
         when:
-        response = restClient.delete(path: location)
+        def response = restClient.delete(path: location)
 
         then:
         response.status == HttpStatus.NO_CONTENT.value()
+    }
+
+    //post to create user and returns location
+    String createUserForTest() {
+        def response = restClient.post(path: '/user',
+                body: [userName     : 'some-user',
+                       password     : 'passw0rd',
+                       firstName    : 'first',
+                       lastName     : 'last',
+                       email        : 'email',
+                       stormPathHref: 'href',
+                       valid        : true,
+                       dateCreated  : null,
+                       dateUpdated  : null], requestContentType: JSON)
+
+        if (response.status == HttpStatus.CREATED.value()) {
+            return response.headers.'Location'.toString()
+        }
+        else {
+            throw new Exception("failed to create user")
+        }
     }
 
     Map parseResponseJson(response) {
