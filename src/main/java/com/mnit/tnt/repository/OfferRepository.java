@@ -1,5 +1,6 @@
 package com.mnit.tnt.repository;
 
+import com.mnit.tnt.domain.Offer;
 import com.mnit.tnt.domain.User;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -9,7 +10,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  */
 
 @RepositoryRestResource(collectionResourceRel = "offer", path = "offer")
-public interface OfferRepository extends PagingAndSortingRepository<User, Long>{
+public interface OfferRepository extends PagingAndSortingRepository<Offer, Long>{
 
 }
 
