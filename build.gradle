@@ -42,20 +42,18 @@ repositories {
 
 
 dependencies {
-	compile("org.springframework.boot:spring-boot-starter-data-neo4j:${springBootVersion}")
-	compile group: 'com.stormpath.spring', name: 'stormpath-default-spring-boot-starter', version:'1.5.4'
-//	compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
-	compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
-	compile("org.springframework.boot:spring-boot-actuator-docs:${springBootVersion}")
-	compile("org.springframework.boot:spring-boot-starter-data-rest:${springBootVersion}")
-	compile("com.voodoodyne.jackson.jsog:jackson-jsog:1.1")
+    compile("org.springframework.boot:spring-boot-starter-data-neo4j:${springBootVersion}")
+    compile group: 'com.stormpath.spring', name: 'stormpath-default-spring-boot-starter', version: '1.5.4'
+    compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-actuator-docs:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-data-rest:${springBootVersion}")
+    compile("com.voodoodyne.jackson.jsog:jackson-jsog:1.1")
 
-	testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
-	testCompile('org.spockframework:spock-core:1.0-groovy-2.4')
-	testCompile("org.spockframework:spock-spring:1.0-groovy-2.4")
-	testCompile("org.codehaus.groovy.modules.http-builder:http-builder:0.7.1")
-	testCompile("cglib:cglib:3.1")
-
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4')
+    testCompile("org.spockframework:spock-spring:1.0-groovy-2.4")
+    testCompile("org.codehaus.groovy.modules.http-builder:http-builder:0.7.1")
+    testCompile("cglib:cglib:3.1")
 }
 
 sourceSets {
@@ -106,9 +104,11 @@ task runIntegrationTest(type: Test, dependsOn: assemble) {
 task startIDocker(dependsOn: assemble) {
 	doLast {
 		exec {
-			commandLine 'cp', jar.archivePath, 'build/tntserver.jar'
+			commandLine 'cp', jar.archivePath, 'docker_app/tntserver.jar'
 		}
 		exec {
+			environment "appName", "${appName}"
+			environment "version", "${version}"
 			commandLine 'docker-compose', '-f', 'integration-docker.yml', 'up', '-d'
 		}
 	}
@@ -117,15 +117,25 @@ task startIDocker(dependsOn: assemble) {
 task stopIDocker() {
 	doLast {
 		exec {
+			environment "appName", "${appName}"
+			environment "version", "${version}"
 			commandLine 'docker-compose', '-f', 'integration-docker.yml', 'stop'
 			ignoreExitValue true
 		}
 		exec {
+			environment "appName", "${appName}"
+			environment "version", "${version}"
 			commandLine 'docker-compose', '-f', 'integration-docker.yml', 'rm', '-f'
 			ignoreExitValue true
 		}
 		exec {
-			commandLine 'rm', '-f', 'build/tntserver.jar'
+			environment "appName", "${appName}"
+			environment "version", "${version}"
+			commandLine "docker", "rmi", "${appName}:${version}"
+			ignoreExitValue true
+		}
+		exec {
+			commandLine 'rm', '-f', 'docker_app/tntserver.jar'
 			ignoreExitValue true
 		}
 	}

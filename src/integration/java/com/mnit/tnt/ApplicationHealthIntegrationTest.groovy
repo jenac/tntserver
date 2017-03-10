@@ -1,5 +1,6 @@
 package com.mnit.tnt
 
+import groovy.json.JsonSlurper
 import groovyx.net.http.RESTClient
 import org.springframework.http.HttpStatus
 import spock.lang.Shared
@@ -23,8 +24,13 @@ class ApplicationHealthIntegrationTest extends Specification {
 
         then:
         response.status == HttpStatus.OK.value()
-        response.headers.'Content-Type'.toString() == 'application/json;charset=UTF-8'
-        response.data.app.version.startsWith '1.'
+        response.headers.'Content-Type'.toString() == 'application/vnd.spring-boot.actuator.v1+json;charset=UTF-8'
+        String responseText = response.data.text
+        responseText
+        def json = new JsonSlurper().parseText(responseText)
+        json.app.description == 'The backend of tool sharing'
+        json.app.name == 'TnT Server'
+        json.app.version.startsWith '1.'
     }
 
     def 'get heath from /health'() {
@@ -33,6 +39,10 @@ class ApplicationHealthIntegrationTest extends Specification {
 
         then:
         response.status == HttpStatus.OK.value()
-        response.data.status == 'UP'
+        response.headers.'Content-Type'.toString() == 'application/vnd.spring-boot.actuator.v1+json;charset=UTF-8'
+        String responseText = response.data.text
+        responseText
+        def json = new JsonSlurper().parseText(responseText)
+        json.status == 'UP'
     }
 }
