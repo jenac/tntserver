@@ -90,9 +90,11 @@ public class Offer {
         return consumerUserID;
     }
 
-    public void setConsumerUserID(String consumerUserID) {
-        this.consumerUserID = consumerUserID;
-    }
+    public void setConsumerUserID(String consumerUserID) {this.consumerUserID = consumerUserID;}
+
+    public String getStatus() { return status;}
+
+    public void setStatus(String status){ this.status = status;}
 
     public Date getDateCreated() {
         return dateCreated;
