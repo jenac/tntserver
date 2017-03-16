@@ -2,19 +2,23 @@ package com.mnit.tnt.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 //import lombok.Data;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by jing on 3/1/17.
  */
 
 @NodeEntity
-@JsonIdentityInfo(generator = JSOGGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 //@Data
 public class Tool {
     public Long getId() {
@@ -33,6 +37,9 @@ public class Tool {
     private Boolean valid;
     private Date dateCreated;
     private Date dateUpdated;
+
+    @Relationship(type = "OFFERED_WITH", direction = Relationship.INCOMING)
+    private List<Offer> offers = new ArrayList<>();
 
     public String getToolName() {
         return toolName;
@@ -80,5 +87,9 @@ public class Tool {
 
     public void setDateUpdated(Date dateUpdated) {
         this.dateUpdated = dateUpdated;
+    }
+
+    public  void addOffer(Offer offer) {
+        this.offers.add(offer);
     }
 }
