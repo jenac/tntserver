@@ -17,7 +17,7 @@ import java.util.List;
  * Created by lihe on 2/11/17.
  */
 @NodeEntity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = JSOGGenerator.class)
 //@Data
 public class User {
 

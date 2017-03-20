@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @NodeEntity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = JSOGGenerator.class)
 //@Data
 public class Tool {
     public Long getId() {

@@ -3,9 +3,7 @@ package com.mnit.tnt.domain;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.RelationshipEntity;
+import org.neo4j.ogm.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -15,7 +13,7 @@ import java.util.Date;
 /**
  * Created by Jun on 2/26/17.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = JSOGGenerator.class)
 @RelationshipEntity(type = "OFFERED_WITH")
 public class Offer {
 
@@ -30,6 +28,11 @@ public class Offer {
     private String status;
     private Date dateCreated;
     private Date dateUpdated;
+    @StartNode
+    private User user;
+
+    @EndNode
+    private Tool tool;
 
     public Long getId() {
         return id;
@@ -101,5 +104,13 @@ public class Offer {
 
     public void setDateUpdated(Date dateUpdated) {
         this.dateUpdated = dateUpdated;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Tool getTool() {
+        return tool;
     }
 }
