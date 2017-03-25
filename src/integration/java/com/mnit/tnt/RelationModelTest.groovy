@@ -29,7 +29,7 @@ class RelationModelTest extends Specification {
         Random random = new Random()
 
         when:
-        1000.times {
+        100.times {
             String u = "u" + it.toString().padLeft( 4, '0' )
             Date now = new Date()
             User user = new User(
@@ -56,7 +56,7 @@ class RelationModelTest extends Specification {
 
             toolRepository.save(tool);
 
-            random.nextInt(3).times {
+            random.nextInt(20).times {
                 Offer offer = new Offer(
                         user: user,
                         tool: tool,
@@ -72,80 +72,9 @@ class RelationModelTest extends Specification {
                 tool.addOffer(offer);
             }
             toolRepository.save(tool);
-
-//            Movie matrix = new Movie("The Matrix", 1999);
-//
-//            instance.save(matrix);
-//
-//            Person keanu = new Person("Keanu Reeves");
-//
-//            personRepository.save(keanu);
-//
-//            Role neo = new Role(matrix, keanu);
-//            neo.addRoleName("Neo");
-//
-//            matrix.addRole(neo);
-//
-//            instance.save(matrix);
         }
 
         then:
         true
     }
-
-    /*
-    def setup() {
-        1000.times {
-            it
-        }Movie matrix = new Movie("The Matrix", 1999);
-
-        instance.save(matrix);
-
-        Person keanu = new Person("Keanu Reeves");
-
-        personRepository.save(keanu);
-
-        Role neo = new Role(matrix, keanu);
-        neo.addRoleName("Neo");
-
-        matrix.addRole(neo);
-
-        instance.save(matrix);
-    }
-
-    @After
-    public void tearDown() {
-        session.purgeDatabase();
-    }
-
-    @Test
-    public void testFindByTitle() {
-
-        String title = "The Matrix";
-        Movie result = instance.findByTitle(title);
-        assertNotNull(result);
-        assertEquals(1999, result.getReleased());
-    }
-
-    @Test
-    public void testFindByTitleContaining() {
-        String title = "Matrix";
-        Collection<Movie> result = instance.findByTitleContaining(title);
-        assertNotNull(result);
-        assertEquals(1, result.size());
-    }
-
-    @Test
-    public void testGraph() {
-        Collection<Movie> graph = instance.graph(5);
-
-        assertEquals(1, graph.size());
-
-        Movie movie = graph.iterator().next();
-
-        assertEquals(1, movie.getRoles().size());
-
-        assertEquals("The Matrix", movie.getTitle());
-        assertEquals("Keanu Reeves", movie.getRoles().iterator().next().getPerson().getName());
-    }*/
 }
