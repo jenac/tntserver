@@ -1,15 +1,16 @@
 package com.mnit.tnt
 
-import com.mnit.tnt.domain.Offer
-import com.mnit.tnt.domain.Tool
-import com.mnit.tnt.domain.User
+import com.mnit.tnt.domain.relation.Offer
+import com.mnit.tnt.domain.node.Tool
+import com.mnit.tnt.domain.node.User
+import com.mnit.tnt.domain.relation.Owner
 import com.mnit.tnt.repository.ToolRepository
 import com.mnit.tnt.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.neo4j.template.Neo4jTemplate
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
-import sun.security.pkcs11.Session
 
 /**
  * Created by lihe on 16-12-16.
@@ -24,57 +25,70 @@ class RelationModelTest extends Specification {
     @Autowired
     private ToolRepository toolRepository
 
-    def "hello hi"() {
-        given:
-        Random random = new Random()
+    User zhang = new User(userName: 'Zhang')
+    User li = new User(userName: 'Li')
+    User wang = new User(userName: 'Wang')
 
+    Tool winT500 = new Tool(name: 'T500 windows 10')
+    Tool lnxT500 = new Tool(name: 'T500 ubuntu 16')
+
+
+    def setup() {
+        userRepository.save(zhang)
+        userRepository.save(li)
+        toolRepository.save(winT500)
+        toolRepository.save(lnxT500)
+
+        Owner zhangOwnWinT500 = new Owner(user: zhang, tool: winT500)
+        winT500.setOwner(zhangOwnWinT500)
+        toolRepository.save(winT500)
+
+        Owner zhangOwnLnxT500 = new Owner(user: zhang, tool: lnxT500)
+        lnxT500.setOwner(zhangOwnLnxT500)
+        toolRepository.save(lnxT500)
+
+
+        //MATCH (n) DETACH DELETE n
+
+    }
+
+    def cleanup() {
+        userRepository.deleteAll();
+    }
+
+    def 'user browse tools'() {
         when:
-        100.times {
-            String u = "u" + it.toString().padLeft( 4, '0' )
-            Date now = new Date()
-            User user = new User(
-                    userName: u,
-                    password: u,
-                    firstName: u,
-                    lastName: u,
-                    valid: true,
-                    dateCreated: now,
-                    dateUpdated: now
-            )
-
-            userRepository.save(user)
-
-            String t = "t" + it.toString().padLeft(4, '0')
-            Tool tool = new Tool(
-                    toolName: t,
-                    description: t,
-                    imageUrl:  t,
-                    valid:  true,
-                    dateCreated:  now,
-                    dateUpdated:  now
-            )
-
-            toolRepository.save(tool);
-
-            random.nextInt(20).times {
-                Offer offer = new Offer(
-                        user: user,
-                        tool: tool,
-                        offerType: (it % 2 == 0) ? 'free' : 'priced',
-                        price: random.nextInt(100),
-                        startDate: now,
-                        endDate: now,
-                        note: 'some note',
-                        status: (it % 3 == 0) ? 'minor' : 'major',
-                        dateCreated: now,
-                        dateUpdated: now
-                )
-                tool.addOffer(offer);
-            }
-            toolRepository.save(tool);
-        }
+        List<Tool> tools = toolRepository.findAll().toList()
 
         then:
+        tools
+        tools.size() == 2
+    }
+
+    def 'user/owner list/offer a existing tool' () {
+        when:
+        Offer zhangOfferWinT500 = new Offer(user: zhang, tool: winT500)
+
+    }
+
+    def 'user/borrower browser listing/offering too'() {
+        
+    }
+
+    def 'user borrow a tool'() {
+
+    }
+
+    def 'user delivery a tool'() {
+
+    }
+
+    def 'user return a tool'() {
+
+    }
+
+    def 'test it'() {
+        expect:
         true
     }
 }
