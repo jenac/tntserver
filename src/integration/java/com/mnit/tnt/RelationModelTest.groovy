@@ -4,11 +4,11 @@ import com.mnit.tnt.domain.relation.Offer
 import com.mnit.tnt.domain.node.Tool
 import com.mnit.tnt.domain.node.User
 import com.mnit.tnt.domain.relation.Owner
+
 import com.mnit.tnt.repository.ToolRepository
 import com.mnit.tnt.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.neo4j.template.Neo4jTemplate
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
@@ -36,6 +36,7 @@ class RelationModelTest extends Specification {
     def setup() {
         userRepository.save(zhang)
         userRepository.save(li)
+        userRepository.save(wang)
         toolRepository.save(winT500)
         toolRepository.save(lnxT500)
 
@@ -56,18 +57,37 @@ class RelationModelTest extends Specification {
         userRepository.deleteAll();
     }
 
-    def 'user browse tools'() {
+    def 'workflow demo'() {
+        //user browser tools
         when:
         List<Tool> tools = toolRepository.findAll().toList()
 
         then:
         tools
         tools.size() == 2
+
+        //zhang list/offer tool for sharing
+        when:
+        Offer zhangOffferWinT500 = new Offer(user: zhang, tool: winT500)
+        zhang.addOffer(zhangOffferWinT500)
+        winT500.addOffer(zhangOffferWinT500)
+
+        userRepository.save(zhang)
+        toolRepository.save(winT500)
+
+        then:
+        true
+
     }
 
     def 'user/owner list/offer a existing tool' () {
         when:
         Offer zhangOfferWinT500 = new Offer(user: zhang, tool: winT500)
+
+
+
+        then:
+        true
 
     }
 

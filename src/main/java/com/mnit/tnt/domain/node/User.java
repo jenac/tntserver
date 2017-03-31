@@ -1,6 +1,7 @@
 package com.mnit.tnt.domain.node;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.mnit.tnt.domain.relation.Offer;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 //import lombok.Data;
 import org.neo4j.ogm.annotation.GraphId;
@@ -45,4 +46,14 @@ public class User {
 //    public List<Tool> getTools() {
 //        return tools;
 //    }
+    @Relationship(type = "OFFER")
+    private List<Offer> offers = new ArrayList<>();
+
+    void addOffer(Offer offer) {
+        offers.add(offer);
+    }
+
+    public List<Offer> getOffers() {
+        return offers;
+    }
 }

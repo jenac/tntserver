@@ -69,4 +69,15 @@ public class Tool {
     public void setOwner(Owner owner) {
         this.owner = owner;
     }
+
+    @Relationship(type = "OFFER")
+    private List<Offer> offers = new ArrayList<>();
+
+    void addOffer(Offer offer) {
+        offers.add(offer);
+    }
+
+    public List<Offer> getOffers() {
+        return offers;
+    }
 }
