@@ -6,18 +6,12 @@ import com.mnit.tnt.domain.node.User;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import org.neo4j.ogm.annotation.*;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-//import lombok.Data;
-
 /**
- * Created by Jun on 2/26/17.
+ * Created by lihe on 4/2/17.
  */
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-@RelationshipEntity(type = "OFFER")
-public class Offer {
-
+@RelationshipEntity(type = "BORROW")
+public class Borrow {
     @GraphId
     private Long id;
 
@@ -29,6 +23,8 @@ public class Offer {
 
     private Boolean active;
 
+    private Long offerId;
+
     public Boolean getActive() {
         return active;
     }
@@ -37,12 +33,12 @@ public class Offer {
         this.active = active;
     }
 
-    public User getUser() {
-        return user;
+    public Long getOfferId() {
+        return offerId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setOfferId(Long offerId) {
+        this.offerId = offerId;
     }
 
 }
