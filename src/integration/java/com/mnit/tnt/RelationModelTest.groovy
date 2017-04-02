@@ -81,7 +81,7 @@ class RelationModelTest extends Specification {
         //the offer expires as time goes
         Offer readOffer = zhang.getCurrentOffers().first()
         readOffer.setActive(false)
-        new RepositoryHelper().saveOffer(readOffer)
+        repositoryHelper.saveOffer(readOffer)
         zhang.removeOffer(readOffer)
         userRepository.save(zhang)
 
