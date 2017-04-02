@@ -9,7 +9,6 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,13 +46,19 @@ public class User {
 //        return tools;
 //    }
     @Relationship(type = "OFFER")
-    private List<Offer> offers = new ArrayList<>();
+    private List<Offer> currentOffers = new ArrayList<>();
 
     void addOffer(Offer offer) {
-        offers.add(offer);
+        currentOffers.add(offer);
     }
 
-    public List<Offer> getOffers() {
-        return offers;
+    void removeOffer(Offer offer) {
+        if (currentOffers.contains(offer)) {
+            currentOffers.remove(offer);
+        }
+    }
+
+    public List<Offer> getCurrentOffers() {
+        return currentOffers;
     }
 }

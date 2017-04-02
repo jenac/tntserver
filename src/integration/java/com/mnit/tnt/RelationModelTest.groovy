@@ -4,11 +4,12 @@ import com.mnit.tnt.domain.relation.Offer
 import com.mnit.tnt.domain.node.Tool
 import com.mnit.tnt.domain.node.User
 import com.mnit.tnt.domain.relation.Owner
-
+import com.mnit.tnt.repository.RepositoryHelper
 import com.mnit.tnt.repository.ToolRepository
 import com.mnit.tnt.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.neo4j.template.Neo4jTemplate
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
@@ -32,6 +33,8 @@ class RelationModelTest extends Specification {
     Tool winT500 = new Tool(name: 'T500 windows 10')
     Tool lnxT500 = new Tool(name: 'T500 ubuntu 16')
 
+    @Autowired
+    RepositoryHelper repositoryHelper
 
     def setup() {
         userRepository.save(zhang)
@@ -68,12 +71,24 @@ class RelationModelTest extends Specification {
 
         //zhang list/offer tool for sharing
         when:
-        Offer zhangOffferWinT500 = new Offer(user: zhang, tool: winT500)
+        Offer zhangOffferWinT500 = new Offer(user: zhang, tool: winT500, active: true)
         zhang.addOffer(zhangOffferWinT500)
         winT500.addOffer(zhangOffferWinT500)
 
         userRepository.save(zhang)
         toolRepository.save(winT500)
+
+        //the offer expires as time goes
+        Offer readOffer = zhang.getCurrentOffers().first()
+        readOffer.setActive(false)
+        new RepositoryHelper().saveOffer(readOffer)
+        zhang.removeOffer(readOffer)
+        userRepository.save(zhang)
+
+        //zhang list the tool again
+        Offer offer2nd = new Offer(user: zhang, tool: winT500, active: true)
+        zhang.addOffer(offer2nd)
+        userRepository.save(zhang)
 
         then:
         true
