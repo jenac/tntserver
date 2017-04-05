@@ -1,16 +1,16 @@
 package com.mnit.tnt
 
+import com.mnit.tnt.domain.relation.Borrow
 import com.mnit.tnt.domain.relation.Offer
 import com.mnit.tnt.domain.node.Tool
 import com.mnit.tnt.domain.node.User
-import com.mnit.tnt.domain.relation.Owner
+import com.mnit.tnt.domain.relation.Own
 import com.mnit.tnt.repository.OfferRepository
 import com.mnit.tnt.repository.RepositoryHelper
 import com.mnit.tnt.repository.ToolRepository
 import com.mnit.tnt.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.neo4j.template.Neo4jTemplate
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
@@ -49,16 +49,16 @@ class RelationModelTest extends Specification {
         toolRepository.save(winT500)
         toolRepository.save(lnxT500)
 
-        Owner zhangOwnWinT500 = new Owner(user: zhang, tool: winT500)
+        Own zhangOwnWinT500 = new Own(user: zhang, tool: winT500)
         winT500.setOwner(zhangOwnWinT500)
         toolRepository.save(winT500)
 
-        Owner zhangOwnLnxT500 = new Owner(user: zhang, tool: lnxT500)
+        Own zhangOwnLnxT500 = new Own(user: zhang, tool: lnxT500)
         lnxT500.setOwner(zhangOwnLnxT500)
         toolRepository.save(lnxT500)
 
 
-        Owner wangOwnDellD610 = new Owner(user: wang, tool: dellD610)
+        Own wangOwnDellD610 = new Own(user: wang, tool: dellD610)
         repositoryHelper.saveOwner(wangOwnDellD610)
         //MATCH (n) DETACH DELETE n
 
@@ -110,11 +110,16 @@ class RelationModelTest extends Specification {
 
         //li borrow t500
         when:
-        Offer t500Offer = offers.find({ it -> it.getUser() == zhang})
+        Offer t500Offer = offers.find({ it -> it.getUser().id == zhang.id})
 
         then:
         t500Offer
 
+        when:
+        Borrow borrow = new Borrow()
+
+        then:
+        true
 
     }
 

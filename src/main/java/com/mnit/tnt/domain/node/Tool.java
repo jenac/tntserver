@@ -3,7 +3,7 @@ package com.mnit.tnt.domain.node;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.mnit.tnt.domain.relation.Offer;
-import com.mnit.tnt.domain.relation.Owner;
+import com.mnit.tnt.domain.relation.Own;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 //import lombok.Data;
 import org.neo4j.ogm.annotation.GraphId;
@@ -11,7 +11,6 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,13 +59,13 @@ public class Tool {
     }
 
     @Relationship(type = "OWN", direction = Relationship.INCOMING)
-    private Owner owner;
+    private Own owner;
 
-    public Owner getOwner() {
+    public Own getOwner() {
         return owner;
     }
 
-    public void setOwner(Owner owner) {
+    public void setOwner(Own owner) {
         this.owner = owner;
     }
 

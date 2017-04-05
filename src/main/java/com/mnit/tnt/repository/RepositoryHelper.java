@@ -1,7 +1,7 @@
 package com.mnit.tnt.repository;
 
 import com.mnit.tnt.domain.relation.Offer;
-import com.mnit.tnt.domain.relation.Owner;
+import com.mnit.tnt.domain.relation.Own;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.template.Neo4jTemplate;
 import org.springframework.stereotype.Component;
@@ -18,5 +18,5 @@ public class RepositoryHelper {
         template.save(offer);
     }
 
-    public void saveOwner(Owner owner) { template.save(owner); }
+    public void saveOwner(Own owner) { template.save(owner); }
 }

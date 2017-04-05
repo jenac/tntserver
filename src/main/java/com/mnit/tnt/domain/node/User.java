@@ -3,7 +3,7 @@ package com.mnit.tnt.domain.node;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.mnit.tnt.domain.relation.Offer;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
-//import lombok.Data;
+import groovy.transform.EqualsAndHashCode;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 @NodeEntity
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-//@Data
+@EqualsAndHashCode
 public class User {
 
     @GraphId

@@ -14,7 +14,7 @@ import org.neo4j.ogm.annotation.StartNode;
  */
 @JsonIdentityInfo(generator = JSOGGenerator.class)
 @RelationshipEntity(type = "OWN")
-public class Owner {
+public class Own {
     @GraphId
     private Long id;
 
