@@ -5,7 +5,7 @@ import com.mnit.tnt.domain.relation.Offer
 import com.mnit.tnt.domain.node.Tool
 import com.mnit.tnt.domain.node.User
 import com.mnit.tnt.domain.relation.Own
-import com.mnit.tnt.repository.OfferRepository
+
 import com.mnit.tnt.repository.RepositoryHelper
 import com.mnit.tnt.repository.ToolRepository
 import com.mnit.tnt.repository.UserRepository
@@ -27,10 +27,10 @@ class RelationModelTest extends Specification {
     @Autowired
     private ToolRepository toolRepository
 
-    User zhang = new User(userName: 'ZhangSan')
-    User li = new User(userName: 'LiSi')
-    User wang = new User(userName: 'WangWu')
-    User zhao = new User(userName: 'ZhaoLiu')
+    User zhang = new User(userName: 'Zhang 3')
+    User li = new User(userName: 'Li 4')
+    User wang = new User(userName: 'Wang 5')
+    User zhao = new User(userName: 'Zhao 6')
 
     Tool winT500 = new Tool(name: 'T500 windows 10')
     Tool lnxT500 = new Tool(name: 'T500 ubuntu 16')
@@ -39,8 +39,6 @@ class RelationModelTest extends Specification {
     @Autowired
     RepositoryHelper repositoryHelper
 
-    @Autowired
-    OfferRepository offerRepository
 
     def setup() {
         userRepository.save(zhang)

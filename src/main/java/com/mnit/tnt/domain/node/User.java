@@ -1,7 +1,6 @@
 package com.mnit.tnt.domain.node;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.mnit.tnt.domain.relation.Offer;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import groovy.transform.EqualsAndHashCode;
 import org.neo4j.ogm.annotation.GraphId;
@@ -45,20 +44,5 @@ public class User {
 //    public List<Tool> getTools() {
 //        return tools;
 //    }
-    @Relationship(type = "OFFER")
-    private List<Offer> currentOffers = new ArrayList<>();
 
-    void addOffer(Offer offer) {
-        currentOffers.add(offer);
-    }
-
-    void removeOffer(Offer offer) {
-        if (currentOffers.contains(offer)) {
-            currentOffers.remove(offer);
-        }
-    }
-
-    public List<Offer> getCurrentOffers() {
-        return currentOffers;
-    }
 }

@@ -2,7 +2,7 @@ package com.mnit.tnt.domain.node;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.mnit.tnt.domain.relation.Offer;
+import com.mnit.tnt.domain.relation.Borrow;
 import com.mnit.tnt.domain.relation.Own;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 //import lombok.Data;
@@ -61,6 +61,11 @@ public class Tool {
     @Relationship(type = "OWN", direction = Relationship.INCOMING)
     private Own owner;
 
+    @Relationship(type = "BORROW", direction = Relationship.INCOMING)
+    private Borrow borrower;
+
+    private User holder;
+
     public Own getOwner() {
         return owner;
     }
@@ -69,14 +74,19 @@ public class Tool {
         this.owner = owner;
     }
 
-    @Relationship(type = "OFFER")
-    private List<Offer> offers = new ArrayList<>();
-
-    void addOffer(Offer offer) {
-        offers.add(offer);
+    public Borrow getBorrower() {
+        return borrower;
     }
 
-    public List<Offer> getOffers() {
-        return offers;
+    public void setBorrower(Borrow borrower) {
+        this.borrower = borrower;
+    }
+
+    public User getHolder() {
+        return holder;
+    }
+
+    public void setHolder(User holder) {
+        this.holder = holder;
     }
 }
