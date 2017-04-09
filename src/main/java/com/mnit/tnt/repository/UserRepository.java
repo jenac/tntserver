@@ -14,6 +14,9 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long>{
 
     @Query("MATCH (n) DETACH DELETE n")
     public void deleteAll();
+
+    User findOneByUsernameAndPassword(String username, String password);
+
 }
 
 //curl -i -X POST -H "Content-Type:application/json" -d '{  "userName": "someone", "password": "somepass", "firstName" : "Frodo1",  "lastName" : "Baggins1", "email": "s@a.com", "stormPathHref": "https://stormpath", "valid": true, "dateCreated": null, "dateUpdated": null }' http://localhost:8080/users

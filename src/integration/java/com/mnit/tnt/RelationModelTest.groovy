@@ -1,11 +1,11 @@
 package com.mnit.tnt
 
 import com.mnit.tnt.domain.relation.Borrow
-import com.mnit.tnt.domain.relation.Offer
 import com.mnit.tnt.domain.node.Tool
 import com.mnit.tnt.domain.node.User
 import com.mnit.tnt.domain.relation.Own
-
+import com.mnit.tnt.repository.BorrowRepository
+import com.mnit.tnt.repository.OwnRepository
 import com.mnit.tnt.repository.RepositoryHelper
 import com.mnit.tnt.repository.ToolRepository
 import com.mnit.tnt.repository.UserRepository
@@ -27,23 +27,29 @@ class RelationModelTest extends Specification {
     @Autowired
     private ToolRepository toolRepository
 
-    User zhang = new User(userName: 'Zhang 3')
-    User li = new User(userName: 'Li 4')
-    User wang = new User(userName: 'Wang 5')
-    User zhao = new User(userName: 'Zhao 6')
+    User zhang = new User(username: 'Zhang 3', password: 'zhang')
+    User li = new User(username: 'Li 4')
+    User wang = new User(username: 'Wang 5')
+    User zhao = new User(username: 'Zhao 6')
 
-    Tool winT500 = new Tool(name: 'T500 windows 10')
-    Tool lnxT500 = new Tool(name: 'T500 ubuntu 16')
-    Tool dellD610 = new Tool(name: 'Dell D610 free BSB')
+    Tool winT500 = new Tool(name: 'T500 windows 10', active: false, price: 0)
+    Tool lnxT500 = new Tool(name: 'T500 ubuntu 16', active: false, price: 0)
+    Tool dellD610 = new Tool(name: 'Dell D610 free BSD', active: false, price: 0)
 
     @Autowired
     RepositoryHelper repositoryHelper
 
+    @Autowired
+    OwnRepository ownRepository
+
+    @Autowired
+    BorrowRepository borrowRepository
 
     def setup() {
         userRepository.save(zhang)
         userRepository.save(li)
         userRepository.save(wang)
+        userRepository.save(zhao)
         toolRepository.save(winT500)
         toolRepository.save(lnxT500)
 
@@ -57,6 +63,7 @@ class RelationModelTest extends Specification {
 
 
         Own wangOwnDellD610 = new Own(user: wang, tool: dellD610)
+        ownRepository.save(wangOwnDellD610)
         repositoryHelper.saveOwner(wangOwnDellD610)
         //MATCH (n) DETACH DELETE n
 
@@ -75,49 +82,47 @@ class RelationModelTest extends Specification {
         tools
         tools.size() == 3
 
+
         //zhang list/offer tool for sharing
         when:
-        Offer zhangOffferWinT500 = new Offer(user: zhang, tool: winT500, active: true)
-        zhang.addOffer(zhangOffferWinT500)
-        winT500.addOffer(zhangOffferWinT500)
+        winT500.setActive(true)
+        lnxT500.setActive(true)
+        lnxT500.setPrice(20)
 
-        userRepository.save(zhang)
         toolRepository.save(winT500)
+        toolRepository.save(lnxT500)
 
-        //the offer expires as time goes
-        Offer readOffer = zhang.getCurrentOffers().first()
-        readOffer.setActive(false)
-        repositoryHelper.saveOffer(readOffer)
-        zhang.removeOffer(readOffer)
-        userRepository.save(zhang)
-
-        //zhang list the tool again
-        Offer offer2nd = new Offer(user: zhang, tool: winT500, active: true)
-        zhang.addOffer(offer2nd)
-        userRepository.save(zhang)
-
-        //wang list offer
-        Offer wangOffer = new Offer(user: wang, tool: dellD610, active: true)
-        repositoryHelper.saveOffer(wangOffer)
-
-        //li check active offers
-        List<Offer> offers = offerRepository.getActiveOffers();
+        //li check active tools
+        List<Tool> activeTools = toolRepository.findByActive(true)
 
         then:
-        offers.size() == 2
+        activeTools.size() == 2
 
         //li borrow t500
         when:
-        Offer t500Offer = offers.find({ it -> it.getUser().id == zhang.id})
+        Borrow liBorrowWinT500 = new Borrow(user: li, tool: winT500)
+        borrowRepository.save(liBorrowWinT500)
+
+        //zhao borrow t500
+        Borrow zhaoBorrowWinT500 = new Borrow(user: zhao, tool: winT500)
+        borrowRepository.save(zhaoBorrowWinT500)
+
+        //zhang check borrows
+        User zhangLogin = userRepository.findOneByUsernameAndPassword(zhang.username, zhang.password)
 
         then:
-        t500Offer
+        zhangLogin
 
         when:
-        Borrow borrow = new Borrow()
+        List<Tool> myTools = toolRepository.findByOwner(zhangLogin);
+
+        then:
+        myTools.size() == 2
 
         then:
         true
+
+
 
     }
 

@@ -6,10 +6,12 @@ import com.mnit.tnt.domain.relation.Borrow;
 import com.mnit.tnt.domain.relation.Own;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 //import lombok.Data;
+import groovy.transform.EqualsAndHashCode;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import java.util.List;
  */
 
 @NodeEntity
+@EqualsAndHashCode
 @JsonIdentityInfo(generator = JSOGGenerator.class)
 public class Tool {
     @GraphId
@@ -25,6 +28,8 @@ public class Tool {
     private String name;
     private String description;
     private String imageUrl;
+    private Boolean active;
+    private BigDecimal price;
 
     public Long getId() {
         return id;
@@ -88,5 +93,21 @@ public class Tool {
 
     public void setHolder(User holder) {
         this.holder = holder;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }
