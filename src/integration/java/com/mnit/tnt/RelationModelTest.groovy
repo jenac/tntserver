@@ -114,6 +114,8 @@ class RelationModelTest extends Specification {
         zhangLogin
 
         when:
+        List<Own> myOwn = ownRepository.findByUser(zhang)
+        List<Own> myOwn2 = ownRepository.findByUser(zhangLogin)
         List<Tool> myTools = toolRepository.findByOwner(zhangLogin);
 
         then:
