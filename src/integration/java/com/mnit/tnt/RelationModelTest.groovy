@@ -3,8 +3,10 @@ package com.mnit.tnt
 import com.mnit.tnt.domain.relation.Borrow
 import com.mnit.tnt.domain.node.Tool
 import com.mnit.tnt.domain.node.User
+import com.mnit.tnt.domain.relation.Deliver
 import com.mnit.tnt.domain.relation.Own
 import com.mnit.tnt.repository.BorrowRepository
+import com.mnit.tnt.repository.DeliverRepository
 import com.mnit.tnt.repository.OwnRepository
 import com.mnit.tnt.repository.RepositoryHelper
 import com.mnit.tnt.repository.ToolRepository
@@ -44,6 +46,9 @@ class RelationModelTest extends Specification {
 
     @Autowired
     BorrowRepository borrowRepository
+
+    @Autowired
+    DeliverRepository deliverRepository
 
     def setup() {
         userRepository.save(zhang)
@@ -143,8 +148,17 @@ class RelationModelTest extends Specification {
         then:
         borrows.size() == 3
 
-        //zhang delivery winT500 to li
+        //zhang delivery borrow 0, 2
         when:
+        Borrow borrow0 =borrows.first()
+        Deliver deliver = new Deliver(tool: borrow0.tool, owner: zhangLogin, borrower: borrow0.user)
+        borrow0.active = false
+        borrow0.tool.holder = borrow0.user
+        borrowRepository.save(borrow0)
+        deliverRepository.save(deliver)
+
+
+
 
         then:
         true
