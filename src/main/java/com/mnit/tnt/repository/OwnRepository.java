@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface OwnRepository extends PagingAndSortingRepository<Own, Long> {
     List<Own> findByUser(User user);
+    List<Own> findByUser_Id(Long id);
 }

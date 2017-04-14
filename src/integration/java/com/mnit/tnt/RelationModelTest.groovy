@@ -53,16 +53,16 @@ class RelationModelTest extends Specification {
         toolRepository.save(winT500)
         toolRepository.save(lnxT500)
 
-        Own zhangOwnWinT500 = new Own(user: zhang, tool: winT500)
-        winT500.setOwner(zhangOwnWinT500)
+        Own zhangOwnWinT500 = new Own(user: zhang, tool: winT500, memo: 'zhang -> winT500')
+        winT500.setOwn(zhangOwnWinT500)
         toolRepository.save(winT500)
 
-        Own zhangOwnLnxT500 = new Own(user: zhang, tool: lnxT500)
-        lnxT500.setOwner(zhangOwnLnxT500)
+        Own zhangOwnLnxT500 = new Own(user: zhang, tool: lnxT500, memo: 'zhang -> lnxT500')
+        lnxT500.setOwn(zhangOwnLnxT500)
         toolRepository.save(lnxT500)
 
 
-        Own wangOwnDellD610 = new Own(user: wang, tool: dellD610)
+        Own wangOwnDellD610 = new Own(user: wang, tool: dellD610, memo: 'wang -> dellD610')
         ownRepository.save(wangOwnDellD610)
         repositoryHelper.saveOwner(wangOwnDellD610)
         //MATCH (n) DETACH DELETE n
@@ -83,14 +83,32 @@ class RelationModelTest extends Specification {
         tools.size() == 3
 
 
-        //zhang list/offer tool for sharing
-        when:
-        winT500.setActive(true)
-        lnxT500.setActive(true)
-        lnxT500.setPrice(20)
+        //zhang login
+        User zhangLogin = userRepository.findOneByUsernameAndPassword(zhang.username, zhang.password)
 
-        toolRepository.save(winT500)
-        toolRepository.save(lnxT500)
+        then:
+        zhangLogin
+
+        //zhang look at his tools
+        when:
+        List<Tool> myTools = toolRepository.findByOwnerId(zhangLogin.id);
+
+        then:
+        myTools.size() == 2
+
+        //zhang list/share tool
+        when:
+        myTools.each {
+            it ->
+                it.setActive(true)
+                if (it.name.contains("windows")) {
+                    it.setPrice(20)
+                }
+                toolRepository.save(it)
+        }
+
+        then:
+        true
 
         //li check active tools
         List<Tool> activeTools = toolRepository.findByActive(true)
@@ -100,26 +118,33 @@ class RelationModelTest extends Specification {
 
         //li borrow t500
         when:
-        Borrow liBorrowWinT500 = new Borrow(user: li, tool: winT500)
+        Borrow liBorrowWinT500 = new Borrow(user: li, tool: winT500, active: true)
         borrowRepository.save(liBorrowWinT500)
 
         //zhao borrow t500
-        Borrow zhaoBorrowWinT500 = new Borrow(user: zhao, tool: winT500)
+        Borrow zhaoBorrowWinT500 = new Borrow(user: zhao, tool: winT500, active: true)
         borrowRepository.save(zhaoBorrowWinT500)
 
-        //zhang check borrows
-        User zhangLogin = userRepository.findOneByUsernameAndPassword(zhang.username, zhang.password)
+        //zhao borrow t500 linux
+        Borrow zhaoBorrowLnxT500 = new Borrow(user: zhao, tool: lnxT500, active: true)
+        borrowRepository.save(zhaoBorrowLnxT500)
 
         then:
-        zhangLogin
+        true
 
+        //zhang check borrow on tool
         when:
-        List<Own> myOwn = ownRepository.findByUser(zhang)
-        List<Own> myOwn2 = ownRepository.findByUser(zhangLogin)
-        List<Tool> myTools = toolRepository.findByOwner(zhangLogin);
+        List<Borrow> borrows = borrowRepository.getActiveBorrowForOwner(zhangLogin.id)
+        borrows.each {
+            it ->
+                println("${it.user.username} want borrow ${it.tool.name}")
+        }
 
         then:
-        myTools.size() == 2
+        borrows.size() == 3
+
+        //zhang delivery winT500 to li
+        when:
 
         then:
         true

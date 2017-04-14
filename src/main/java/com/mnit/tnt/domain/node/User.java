@@ -1,6 +1,7 @@
 package com.mnit.tnt.domain.node;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.mnit.tnt.domain.relation.Deliver;
 import com.mnit.tnt.domain.relation.Return;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
@@ -13,7 +14,9 @@ import org.neo4j.ogm.annotation.Relationship;
  * Created by lihe on 2/11/17.
  */
 @NodeEntity
-@JsonIdentityInfo(generator = JSOGGenerator.class)
+//@JsonIdentityInfo(generator = JSOGGenerator.class)
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+
 @EqualsAndHashCode
 public class User {
 

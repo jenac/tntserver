@@ -32,5 +32,5 @@ Backend for Tool Sharing Application
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
+* Repo own or admin
 * Other community or team contact

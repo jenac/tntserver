@@ -2,9 +2,9 @@ package com.mnit.tnt.domain.node;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.mnit.tnt.domain.relation.Borrow;
 import com.mnit.tnt.domain.relation.Own;
-import com.voodoodyne.jackson.jsog.JSOGGenerator;
 //import lombok.Data;
 import groovy.transform.EqualsAndHashCode;
 import org.neo4j.ogm.annotation.GraphId;
@@ -12,8 +12,6 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jing on 3/1/17.
@@ -21,7 +19,8 @@ import java.util.List;
 
 @NodeEntity
 @EqualsAndHashCode
-@JsonIdentityInfo(generator = JSOGGenerator.class)
+//@JsonIdentityInfo(generator = JSOGGenerator.class)
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Tool {
     @GraphId
     private Long id;
@@ -64,27 +63,27 @@ public class Tool {
     }
 
     @Relationship(type = "OWN", direction = Relationship.INCOMING)
-    private Own owner;
+    private Own own;
 
     @Relationship(type = "BORROW", direction = Relationship.INCOMING)
-    private Borrow borrower;
+    private Borrow borrow;
 
     private User holder;
 
-    public Own getOwner() {
-        return owner;
+    public Own getOwn() {
+        return own;
     }
 
-    public void setOwner(Own owner) {
-        this.owner = owner;
+    public void setOwn(Own own) {
+        this.own = own;
     }
 
-    public Borrow getBorrower() {
-        return borrower;
+    public Borrow getBorrow() {
+        return borrow;
     }
 
-    public void setBorrower(Borrow borrower) {
-        this.borrower = borrower;
+    public void setBorrow(Borrow borrow) {
+        this.borrow = borrow;
     }
 
     public User getHolder() {
