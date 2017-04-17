@@ -13,6 +13,7 @@ import spock.lang.Specification
 /**
  * Created by lihe on 16-12-16.
  */
+@Ignore
 class UserRestApiIntegrationTest extends Specification {
     @Shared
     RESTClient restClient

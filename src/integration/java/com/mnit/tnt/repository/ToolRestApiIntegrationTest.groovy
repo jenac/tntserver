@@ -10,6 +10,7 @@ import spock.lang.Shared
 /**
  * Created by jing on 3/1/17.
  */
+@Ignore
 class ToolRestApiIntegrationTest extends Specification {
     @Shared
     RESTClient restClient
@@ -20,7 +21,7 @@ class ToolRestApiIntegrationTest extends Specification {
 
     def 'get tool list from /tool'() {
         when:
-        def response = restClient.get(path: '/tool')
+        def response = restClient.get(path: '/ATool')
 
         then:
         response.status == HttpStatus.OK.value()
@@ -29,14 +30,14 @@ class ToolRestApiIntegrationTest extends Specification {
         String responseText = response.data.text
         responseText
         def json = new JsonSlurper().parseText(responseText)
-        json._links.self.href == "http://localhost:8080/tool"
+        json._links.self.href == "http://localhost:8080/ATool"
     }
 
     def 'post to /tool creates new tool' () {
         //create: post
         when:
-        def response = restClient.post(path: '/tool',
-                body: [toolName     : 'some-tool',
+        def response = restClient.post(path: '/ATool',
+                body: [toolName     : 'some-ATool',
                        description  : 'description',
                        imageUrl     : 'imageUrl',
                        valid        : true,
@@ -48,7 +49,7 @@ class ToolRestApiIntegrationTest extends Specification {
         response.status == HttpStatus.CREATED.value()
         response.headers.'Content-Type'.toString() == 'application/hal+json;charset=UTF-8'
         String location = response.headers.'Location'.toString()
-        location.startsWith('http://localhost:8080/tool/')
+        location.startsWith('http://localhost:8080/ATool/')
     }
 
     def 'get to /tool/id read tool'() {
@@ -62,7 +63,7 @@ class ToolRestApiIntegrationTest extends Specification {
         response.status == HttpStatus.OK.value()
         response.headers.'Content-Type'.toString() == 'application/hal+json;charset=UTF-8'
         def getJson = parseResponseJson(response)
-        getJson.toolName == 'some-tool'
+        getJson.toolName == 'some-ATool'
         getJson.description == 'description'
         getJson.imageUrl == 'imageUrl'
         getJson.valid == true
@@ -77,7 +78,7 @@ class ToolRestApiIntegrationTest extends Specification {
         //update: put, put is idempotent only for full update
         when:
         def response = restClient.put(path: location,
-                body: [toolName     : 'put-some-tool',
+                body: [toolName     : 'put-some-ATool',
                        description  : 'put-description',
                        imageUrl     : 'put-imageUrl',
                        valid        : false,
@@ -90,7 +91,7 @@ class ToolRestApiIntegrationTest extends Specification {
         response.headers.'Content-Type'.toString() == 'application/hal+json;charset=UTF-8'
         response.headers.'Location'.toString() == location
         def putJson = parseResponseJson(response)
-        putJson.toolName == "put-some-tool"
+        putJson.toolName == "put-some-ATool"
         putJson.description == "put-description"
         putJson.imageUrl == "put-imageUrl"
         putJson.valid == false
@@ -107,7 +108,7 @@ class ToolRestApiIntegrationTest extends Specification {
         //update partially: patch
         when:
         def response = restClient.patch(path: location,
-                body: [toolName: 'patch-some-tool',
+                body: [toolName: 'patch-some-ATool',
                        description: 'patch-description'],
                 requestContentType: JSON)
 
@@ -116,7 +117,7 @@ class ToolRestApiIntegrationTest extends Specification {
         response.status == HttpStatus.OK.value()
         response.headers.'Content-Type'.toString() == 'application/hal+json;charset=UTF-8'
         def postJson = parseResponseJson(response)
-        postJson.toolName == "patch-some-tool"
+        postJson.toolName == "patch-some-ATool"
         postJson.imageUrl == "imageUrl"
         postJson.valid == true
         postJson.dateCreated == null
@@ -136,10 +137,10 @@ class ToolRestApiIntegrationTest extends Specification {
         response.status == HttpStatus.NO_CONTENT.value()
     }
 
-    //post to create tool and returns location
+    //post to create ATool and returns location
     String createToolForTest() {
-        def response = restClient.post(path: '/tool',
-                body: [toolName     : 'some-tool',
+        def response = restClient.post(path: '/ATool',
+                body: [toolName     : 'some-ATool',
                        description  : 'description',
                        imageUrl     : 'imageUrl',
                        valid        : true,
@@ -151,7 +152,7 @@ class ToolRestApiIntegrationTest extends Specification {
             return response.headers.'Location'.toString()
         }
         else {
-            throw new Exception("failed to create tool")
+            throw new Exception("failed to create ATool")
         }
     }
 

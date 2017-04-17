@@ -5,10 +5,12 @@ import com.mnit.tnt.domain.node.Tool
 import com.mnit.tnt.domain.node.User
 import com.mnit.tnt.domain.relation.Deliver
 import com.mnit.tnt.domain.relation.Own
+import com.mnit.tnt.domain.relation.Return
 import com.mnit.tnt.repository.BorrowRepository
 import com.mnit.tnt.repository.DeliverRepository
 import com.mnit.tnt.repository.OwnRepository
 import com.mnit.tnt.repository.RepositoryHelper
+import com.mnit.tnt.repository.ReturnRepository
 import com.mnit.tnt.repository.ToolRepository
 import com.mnit.tnt.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -49,6 +51,9 @@ class RelationModelTest extends Specification {
 
     @Autowired
     DeliverRepository deliverRepository
+
+    @Autowired
+    ReturnRepository returnRepository
 
     def setup() {
         userRepository.save(zhang)
@@ -101,7 +106,7 @@ class RelationModelTest extends Specification {
         then:
         myTools.size() == 2
 
-        //zhang list/share tool
+        //zhang list/share ATool
         when:
         myTools.each {
             it ->
@@ -137,7 +142,7 @@ class RelationModelTest extends Specification {
         then:
         true
 
-        //zhang check borrow on tool
+        //zhang check borrow on ATool
         when:
         List<Borrow> borrows = borrowRepository.getActiveBorrowForOwner(zhangLogin.id)
         borrows.each {
@@ -148,22 +153,49 @@ class RelationModelTest extends Specification {
         then:
         borrows.size() == 3
 
-        //zhang delivery borrow 0, 2
+        //zhang delivery borrow 0
         when:
         Borrow borrow0 =borrows.first()
-        Deliver deliver = new Deliver(tool: borrow0.tool, owner: zhangLogin, borrower: borrow0.user)
+        Deliver deliver0 = new Deliver(tool: borrow0.tool, owner: zhangLogin, borrower: borrow0.user)
         borrow0.active = false
         borrow0.tool.holder = borrow0.user
         borrowRepository.save(borrow0)
-        deliverRepository.save(deliver)
-
-
-
+        deliverRepository.save(deliver0)
 
         then:
         true
 
+        //zhang delivery borrow 2
+        when:
+        Borrow borrow2 = borrows.last()
+        Deliver deliver2 = new Deliver(tool: borrow2.tool, owner: zhangLogin, borrower: borrow2.user)
+        borrow2.active = false
+        borrow2.tool.holder = borrow2.user
+        borrowRepository.save(borrow2)
+        deliverRepository.save(deliver2)
 
+        then:
+        true
+
+        //borrower check holding tools
+        when:
+        User borrower = borrow0.user
+        List<Tool> myBorrowedTools = toolRepository.getBorrowedToolsByUserId(borrower.id)
+
+        then:
+        myBorrowedTools
+
+        //borrower returns holding tool
+        //how to find zhang?
+        when:
+        Tool borrowedTool = myBorrowedTools.first()
+        Return aReturn = new Return(tool: myBorrowedTools.first(), borrower: borrower, owner: zhang)
+        borrowedTool.holder = zhang
+        returnRepository.save(aReturn)
+        toolRepository.save(borrowedTool)
+
+        then:
+        true
 
     }
 
