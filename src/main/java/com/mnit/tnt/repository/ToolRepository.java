@@ -17,7 +17,7 @@ public interface ToolRepository extends PagingAndSortingRepository<Tool, Long>{
     @Query("MATCH (t:Tool)<-[:OWN]-(u:User) WHERE id(u)={0} RETURN t")
     List<Tool> findByOwnerId(Long id);
 
-    @Query("MATCH (t:Tool)-[:HOLDER]->(u:User) WHERE id(u)={0} RETURN t")
+    @Query("MATCH (t:Tool)-[h:HOLDER]->(u:User) WHERE id(u)={0} AND h.untill IS NULL RETURN t")
     List<Tool> getBorrowedToolsByUserId(Long id);
     //List<Tool> findByOwner(o)
 

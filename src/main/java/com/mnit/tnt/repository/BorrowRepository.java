@@ -12,6 +12,9 @@ import java.util.List;
 public interface BorrowRepository extends PagingAndSortingRepository<Borrow, Long> {
 
 
-    @Query("MATCH (b:User)-[bo:BORROW]-> (t:Tool)<-[:OWN]-(u:User) WHERE id(u)={0} AND bo.active=true RETURN bo")
+    @Query("MATCH (b:User)-[bo:BORROW]-> (t:Tool)<-[:OWN]-(u:User) WHERE id(u)={0} AND bo.status='ACTIVE' RETURN bo")
     List<Borrow> getActiveBorrowForOwner(Long id);
+
+    @Query("MATCH (:User)-[bo:BORROW]-> (t:Tool) WHERE id(t)={0} AND bo.status='ACTIVE' RETURN bo")
+    List<Borrow> getActiveBorrowOnTool(Long id);
 }

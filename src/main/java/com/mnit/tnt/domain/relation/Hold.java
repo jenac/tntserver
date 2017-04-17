@@ -27,7 +27,47 @@ public class Hold {
     @EndNode
     private Tool tool;
 
-    private Date begin;
+    private Date since;
 
-    private Date end;
+    private Date untill;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Tool getTool() {
+        return tool;
+    }
+
+    public void setTool(Tool tool) {
+        this.tool = tool;
+    }
+
+    public Date getSince() {
+        return since;
+    }
+
+    public void setSince(Date since) {
+        this.since = since;
+    }
+
+    public Date getUntill() {
+        return untill;
+    }
+
+    public void setUntill(Date untill) {
+        this.untill = untill;
+    }
 }

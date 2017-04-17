@@ -3,14 +3,13 @@ package com.mnit.tnt
 import com.mnit.tnt.domain.relation.Borrow
 import com.mnit.tnt.domain.node.Tool
 import com.mnit.tnt.domain.node.User
-import com.mnit.tnt.domain.relation.Deliver
+import com.mnit.tnt.domain.relation.Hold
 import com.mnit.tnt.domain.relation.Own
-import com.mnit.tnt.domain.relation.Return
+import com.mnit.tnt.domain.relation.Status
 import com.mnit.tnt.repository.BorrowRepository
-import com.mnit.tnt.repository.DeliverRepository
+import com.mnit.tnt.repository.HoldRepository
 import com.mnit.tnt.repository.OwnRepository
-import com.mnit.tnt.repository.RepositoryHelper
-import com.mnit.tnt.repository.ReturnRepository
+
 import com.mnit.tnt.repository.ToolRepository
 import com.mnit.tnt.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,9 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
-/**
- * Created by lihe on 16-12-16.
- */
 @ContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RelationModelTest extends Specification {
@@ -41,19 +37,13 @@ class RelationModelTest extends Specification {
     Tool dellD610 = new Tool(name: 'Dell D610 free BSD', active: false, price: 0)
 
     @Autowired
-    RepositoryHelper repositoryHelper
-
-    @Autowired
     OwnRepository ownRepository
 
     @Autowired
     BorrowRepository borrowRepository
 
     @Autowired
-    DeliverRepository deliverRepository
-
-    @Autowired
-    ReturnRepository returnRepository
+    HoldRepository holdRepository
 
     def setup() {
         userRepository.save(zhang)
@@ -74,8 +64,18 @@ class RelationModelTest extends Specification {
 
         Own wangOwnDellD610 = new Own(user: wang, tool: dellD610, memo: 'wang -> dellD610')
         ownRepository.save(wangOwnDellD610)
-        repositoryHelper.saveOwner(wangOwnDellD610)
-        //MATCH (n) DETACH DELETE n
+
+
+        Hold zhangHoldWinT500 = new Hold(user: zhang, tool: winT500, since: new Date())
+        winT500.setHold(zhangHoldWinT500)
+        toolRepository.save(winT500)
+        Hold zhangHoldLnxT500 = new Hold(user: zhang, tool: lnxT500, since: new Date())
+        lnxT500.setHold(zhangHoldLnxT500)
+        toolRepository.save(lnxT500)
+        Hold wangHoldD610 = new Hold(user: wang, tool: dellD610, since: new Date())
+        dellD610.setHold(wangHoldD610)
+        toolRepository.save(dellD610)
+
 
     }
 
@@ -128,15 +128,15 @@ class RelationModelTest extends Specification {
 
         //li borrow t500
         when:
-        Borrow liBorrowWinT500 = new Borrow(user: li, tool: winT500, active: true)
+        Borrow liBorrowWinT500 = new Borrow(user: li, tool: winT500, status: Status.ACTIVE, date: new Date())
         borrowRepository.save(liBorrowWinT500)
 
         //zhao borrow t500
-        Borrow zhaoBorrowWinT500 = new Borrow(user: zhao, tool: winT500, active: true)
+        Borrow zhaoBorrowWinT500 = new Borrow(user: zhao, tool: winT500, status: Status.ACTIVE, date: new Date())
         borrowRepository.save(zhaoBorrowWinT500)
 
         //zhao borrow t500 linux
-        Borrow zhaoBorrowLnxT500 = new Borrow(user: zhao, tool: lnxT500, active: true)
+        Borrow zhaoBorrowLnxT500 = new Borrow(user: zhao, tool: lnxT500, status: Status.ACTIVE, date: new Date())
         borrowRepository.save(zhaoBorrowLnxT500)
 
         then:
@@ -153,30 +153,76 @@ class RelationModelTest extends Specification {
         then:
         borrows.size() == 3
 
-        //zhang delivery borrow 0
+        //zhang accept borrow 0
+        //transaction needed
         when:
         Borrow borrow0 =borrows.first()
-        Deliver deliver0 = new Deliver(tool: borrow0.tool, owner: zhangLogin, borrower: borrow0.user)
-        borrow0.active = false
-        borrow0.tool.holder = borrow0.user
+        borrow0.status = Status.ACCEPTED
         borrowRepository.save(borrow0)
-        deliverRepository.save(deliver0)
+        //reject all active borrow on the tool
+        List<Borrow> otherActiveBorrows = borrowRepository.getActiveBorrowOnTool(borrow0.tool.id)
+        assert otherActiveBorrows.size() == 0
+        otherActiveBorrows.each {
+            it ->
+                it.status = Status.REJECTED
+                borrowRepository.save(it)
+        }
+
+
+        /*
+        //change holder, bad practice
+        Tool theTool = borrow0.tool //for some reason this tool does not have hold, but after reload it is here.
+        // are there a config for lazy/eager for neo4j?
+        Tool reloaded = toolRepository.findOne(theTool.id)
+        reloaded.hold.user = borrow0.user
+        toolRepository.save(reloaded) //this does not work!
+        holdRepository.save(reloaded.hold) //this does not work!
+        //looks like the start/end node cannot change
+        */
+
+        //end old hold
+        Tool reloaded = toolRepository.findOne(borrow0.tool.id)
+        reloaded.hold.untill = new Date()
+        holdRepository.save(reloaded.hold)
+        //create new hold relation.
+        Hold borrow0HoldTool = new Hold(user: borrow0.user, tool: borrow0.tool, since: new Date())
+        holdRepository.save(borrow0HoldTool)
+        //deactive tool
+        reloaded.active = false
+        toolRepository.save(reloaded)
 
         then:
         true
 
-        //zhang delivery borrow 2
+        //zhang accept borrow 2
         when:
         Borrow borrow2 = borrows.last()
-        Deliver deliver2 = new Deliver(tool: borrow2.tool, owner: zhangLogin, borrower: borrow2.user)
-        borrow2.active = false
-        borrow2.tool.holder = borrow2.user
+        borrow2.status = Status.ACCEPTED
         borrowRepository.save(borrow2)
-        deliverRepository.save(deliver2)
+        //reject all active borrow on the tool
+        otherActiveBorrows = borrowRepository.getActiveBorrowOnTool(borrow2.tool.id)
+        assert otherActiveBorrows.size() == 1
+        otherActiveBorrows.each {
+            it ->
+                it.status = Status.REJECTED
+                borrowRepository.save(it)
+        }
 
-        then:
+        //end old hold
+        reloaded = toolRepository.findOne(borrow2.tool.id)
+        reloaded.hold.untill = new Date()
+        holdRepository.save(reloaded.hold)
+        //create new hold relation.
+        Hold borrow2HoldTool = new Hold(user: borrow2.user, tool: borrow2.tool, since: new Date())
+        holdRepository.save(borrow2HoldTool)
+        //deactive tool
+        reloaded.active = false
+        toolRepository.save(reloaded)
+
+       then:
         true
 
+       /*
         //borrower check holding tools
         when:
         User borrower = borrow0.user
@@ -185,18 +231,10 @@ class RelationModelTest extends Specification {
         then:
         myBorrowedTools
 
-        //borrower returns holding tool
-        //how to find zhang?
-        when:
-        Tool borrowedTool = myBorrowedTools.first()
-        Return aReturn = new Return(tool: myBorrowedTools.first(), borrower: borrower, owner: zhang)
-        borrowedTool.holder = zhang
-        returnRepository.save(aReturn)
-        toolRepository.save(borrowedTool)
 
         then:
         true
-
+       */
     }
 
 
