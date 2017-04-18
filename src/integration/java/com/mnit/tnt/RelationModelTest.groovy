@@ -35,6 +35,8 @@ class RelationModelTest extends Specification {
     Tool winT500 = new Tool(name: 'T500 windows 10', active: false, price: 0)
     Tool lnxT500 = new Tool(name: 'T500 ubuntu 16', active: false, price: 0)
     Tool dellD610 = new Tool(name: 'Dell D610 free BSD', active: false, price: 0)
+    Tool hpElite = new Tool(name: 'HP elite laptop', active: false, price: 0)
+    Tool appleMacbook =  new Tool(name: 'Apple Macbook', active: false, price: 0)
 
     @Autowired
     OwnRepository ownRepository
@@ -46,6 +48,10 @@ class RelationModelTest extends Specification {
     HoldRepository holdRepository
 
     def setup() {
+        //clean up database first
+        userRepository.deleteAll();
+
+        //setup begins here
         userRepository.save(zhang)
         userRepository.save(li)
         userRepository.save(wang)
@@ -56,14 +62,15 @@ class RelationModelTest extends Specification {
         Own zhangOwnWinT500 = new Own(user: zhang, tool: winT500, memo: 'zhang -> winT500')
         winT500.setOwn(zhangOwnWinT500)
         toolRepository.save(winT500)
-
         Own zhangOwnLnxT500 = new Own(user: zhang, tool: lnxT500, memo: 'zhang -> lnxT500')
         lnxT500.setOwn(zhangOwnLnxT500)
         toolRepository.save(lnxT500)
 
-
         Own wangOwnDellD610 = new Own(user: wang, tool: dellD610, memo: 'wang -> dellD610')
         ownRepository.save(wangOwnDellD610)
+
+        ownRepository.save(new Own(user: li, tool: appleMacbook, memo: 'li -> macbook'))
+        ownRepository.save(new Own(user: zhao, tool: hpElite, memo: 'zhao -> hpElite'))
 
 
         Hold zhangHoldWinT500 = new Hold(user: zhang, tool: winT500, since: new Date())
@@ -75,6 +82,9 @@ class RelationModelTest extends Specification {
         Hold wangHoldD610 = new Hold(user: wang, tool: dellD610, since: new Date())
         dellD610.setHold(wangHoldD610)
         toolRepository.save(dellD610)
+
+        holdRepository.save(new Hold(user: li, tool: appleMacbook, since: new Date()))
+        holdRepository.save(new Hold(user: zhao, tool: hpElite, since: new Date()))
 
 
     }
@@ -90,7 +100,7 @@ class RelationModelTest extends Specification {
 
         then:
         tools
-        tools.size() == 3
+        tools.size() == 5
 
 
         //zhang login
@@ -222,19 +232,30 @@ class RelationModelTest extends Specification {
        then:
         true
 
-       /*
-        //borrower check holding tools
+       //borrower check current holding borrowed tools.
         when:
         User borrower = borrow0.user
-        List<Tool> myBorrowedTools = toolRepository.getBorrowedToolsByUserId(borrower.id)
+        List<Tool> myBorrowedTools = toolRepository.getBorrowingToolsByUserId(borrower.id)
 
         then:
-        myBorrowedTools
+        myBorrowedTools.size() == 1
+
+       //borrower return tool, once work finished
+        when:
+        Tool selectedToReturn = myBorrowedTools.first() //this one does not have hold
+        Tool reloadedSelectedToReturn = toolRepository.findOne(selectedToReturn.id)
+        //end old hold
+        reloadedSelectedToReturn.hold.untill = new Date()
+        holdRepository.save(reloadedSelectedToReturn.hold)
+        holdRepository.save(new Hold(user: reloadedSelectedToReturn.own.user, tool: reloadedSelectedToReturn, since: new Date()))
 
 
         then:
         true
-       */
+
+
+
+
     }
 
 
