@@ -3,6 +3,7 @@ package com.mnit.tnt.repository
 import groovy.json.JsonSlurper
 import groovyx.net.http.RESTClient
 import org.springframework.http.HttpStatus
+import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -11,6 +12,7 @@ import static groovyx.net.http.ContentType.JSON
 /**
  * Created by junwang on 03-05-17.
  */
+@Ignore
 class OfferRestApiIntegrationTest extends Specification {
     @Shared
     RESTClient restClient

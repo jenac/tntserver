@@ -7,18 +7,14 @@ import org.neo4j.ogm.annotation.NodeEntity;
 
 import java.util.Date;
 
-//import lombok.Data;
-
 /**
- * Created by Jun on 2/26/17.
+ * Created by lihe on 5/21/17.
  */
 @NodeEntity
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-//@Data
-public class Offer {
-
+public class Delivery {
     @GraphId
     private Long id;
-    private String offerNote;
+    private String deliveryProof;
     private Date dateCreated;
 }

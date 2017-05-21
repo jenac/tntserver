@@ -10,6 +10,7 @@ import spock.lang.Shared
 /**
  * Created by jing on 3/1/17.
  */
+@Ignore
 class ToolRestApiIntegrationTest extends Specification {
     @Shared
     RESTClient restClient
