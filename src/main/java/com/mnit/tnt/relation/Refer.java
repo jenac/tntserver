@@ -13,8 +13,8 @@ import org.neo4j.ogm.annotation.StartNode;
  * Created by lihe on 5/21/17.
  */
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-@RelationshipEntity(type="REFERENCE")
-public class Reference {
+@RelationshipEntity(type="REFER")
+public class Refer {
     @GraphId
     private Long id;
 
